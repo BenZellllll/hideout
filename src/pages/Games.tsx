@@ -43,9 +43,9 @@ const Games = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const gameParam = searchParams.get("game");
   const [searchQuery, setSearchQuery] = useState("");
-  const [popularityFilter, setPopularityFilter] = useState("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [currentGame, setCurrentGame] = useState<Game | null>(null);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   useEffect(() => {
     if (gameParam) {
@@ -70,25 +70,51 @@ const Games = () => {
     }
   };
 
-  const filteredGames = games.filter((game) => {
-    const matchesSearch = game.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPopularity = popularityFilter === "all" || game.popularity.includes(popularityFilter);
-    const matchesCategory = categoryFilter === "all" || game.categories.includes(categoryFilter);
-    return matchesSearch && matchesPopularity && matchesCategory;
-  });
+  const filteredGames = games
+    .filter((game) => {
+      const matchesSearch = game.name.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = categoryFilter === "all" || game.categories.includes(categoryFilter);
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      const aIsHotOrPopular = a.popularity.includes("hot") || a.popularity.includes("popular");
+      const bIsHotOrPopular = b.popularity.includes("hot") || b.popularity.includes("popular");
+      if (aIsHotOrPopular && !bIsHotOrPopular) return -1;
+      if (!aIsHotOrPopular && bIsHotOrPopular) return 1;
+      return 0;
+    });
 
   const allCategories = Array.from(new Set(games.flatMap(game => game.categories)));
+
+  const handleFavorite = () => {
+    // Check if user is logged in (placeholder - will implement auth later)
+    const isLoggedIn = false; // TODO: Replace with actual auth check
+    
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true);
+      setTimeout(() => {
+        window.location.href = "/settings"; // TODO: Replace with actual auth page
+      }, 2000);
+    }
+  };
 
   // If a game is selected, show the game player
   if (currentGame) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main className="pt-24 px-4 sm:px-6 pb-12 max-w-5xl mx-auto">
-          <div className="space-y-4">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground">{currentGame.name}</h1>
+        <main className="pt-24 px-4 sm:px-6 pb-12 max-w-4xl mx-auto">
+          <div className="space-y-3">
+            {/* Game Title with Icon */}
+            <div className="w-full bg-card rounded-lg border border-border p-4 flex items-center gap-4">
+              <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                <img src={currentGame.icon} alt={currentGame.name} className="w-full h-full object-cover" />
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-foreground">{currentGame.name}</h1>
+            </div>
             
-            <div className="w-full max-w-4xl bg-card rounded-lg overflow-hidden border border-border" style={{ aspectRatio: '16/9' }}>
+            {/* Game Iframe */}
+            <div className="w-full bg-card rounded-lg overflow-hidden border border-border" style={{ aspectRatio: '16/9' }}>
               <iframe
                 id="game-iframe"
                 src={currentGame.gameLink}
@@ -98,16 +124,37 @@ const Games = () => {
               />
             </div>
 
-            <div className="flex justify-start">
+            {/* Controls */}
+            <div className="w-full bg-card rounded-lg border border-border p-4 flex gap-3">
+              <Button
+                onClick={() => setSearchParams({})}
+                variant="outline"
+              >
+                Back to Games
+              </Button>
               <Button
                 onClick={handleFullscreen}
                 className="gap-2"
-                size="lg"
               >
-                <Maximize className="w-5 h-5" />
+                <Maximize className="w-4 h-4" />
                 Fullscreen
               </Button>
+              <Button
+                onClick={handleFavorite}
+                variant="outline"
+                className="gap-2"
+              >
+                <Star className="w-4 h-4" />
+                Favorite
+              </Button>
             </div>
+
+            {/* Login Prompt */}
+            {showLoginPrompt && (
+              <div className="w-full bg-destructive/10 border border-destructive rounded-lg p-4 text-center">
+                <p className="text-destructive font-medium">You need to create an account or login to use favorites. Redirecting...</p>
+              </div>
+            )}
           </div>
         </main>
       </div>
@@ -139,33 +186,6 @@ const Games = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-
-            {/* Popularity Filter */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2 bg-card border-border">
-                  <Filter className="w-4 h-4" />
-                  {popularityFilter === "all" ? "Popularity" : popularityFilter.charAt(0).toUpperCase() + popularityFilter.slice(1)}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-card border-border z-50">
-                <DropdownMenuItem onClick={() => setPopularityFilter("all")}>
-                  All
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPopularityFilter("hot")}>
-                  Hot
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPopularityFilter("popular")}>
-                  Popular
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPopularityFilter("trending")}>
-                  Trending
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setPopularityFilter("new")}>
-                  New
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
 
             {/* Category Filter */}
             <DropdownMenu>

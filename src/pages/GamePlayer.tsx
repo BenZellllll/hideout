@@ -6,7 +6,6 @@ import { Maximize } from "lucide-react";
 import gamesData from "@/data/games.json";
 
 type Game = {
-  id: number;
   name: string;
   icon: string;
   popularity: string[];
