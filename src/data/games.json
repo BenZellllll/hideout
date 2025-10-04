@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "Among Us",
+    "name": "Not Among Us",
     "icon": "Users",
     "popularity": ["hot", "popular"],
     "categories": ["multiplayer", "action"],
