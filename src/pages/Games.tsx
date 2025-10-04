@@ -85,19 +85,11 @@ const Games = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main className="pt-24 px-6 pb-12 max-w-7xl mx-auto">
-          <div className="space-y-6">
-            <Button
-              variant="outline"
-              onClick={() => setSearchParams({})}
-              className="mb-4"
-            >
-              ← Back to Games
-            </Button>
+        <main className="pt-24 px-4 sm:px-6 pb-12 max-w-5xl mx-auto">
+          <div className="space-y-4">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground">{currentGame.name}</h1>
             
-            <h1 className="text-4xl font-bold text-foreground">{currentGame.name}</h1>
-            
-            <div className="w-full aspect-video bg-card rounded-lg overflow-hidden border border-border">
+            <div className="w-full max-w-4xl bg-card rounded-lg overflow-hidden border border-border" style={{ aspectRatio: '16/9' }}>
               <iframe
                 id="game-iframe"
                 src={currentGame.gameLink}
@@ -107,7 +99,7 @@ const Games = () => {
               />
             </div>
 
-            <div className="flex justify-center">
+            <div className="flex justify-start">
               <Button
                 onClick={handleFullscreen}
                 className="gap-2"
@@ -129,7 +121,7 @@ const Games = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
 
-      <main className="pt-24 px-6 pb-12 max-w-7xl mx-auto">
+      <main className="pt-24 px-4 sm:px-6 pb-12 max-w-7xl mx-auto">
         {/* Header */}
         <div className="space-y-6 mb-12 animate-fade-in">
           <h1 className="text-4xl font-bold text-foreground">Games</h1>

@@ -17,7 +17,7 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 animate-slide-in-top">
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="w-full px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo with rounded container */}
           <Link to="/" className="bg-card/50 backdrop-blur-md rounded-2xl px-6 py-3 border border-border/50 hover:border-primary/30 transition-colors">
