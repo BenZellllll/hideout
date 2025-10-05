@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight, RotateCw, X, Plus, Home } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,6 +15,7 @@ interface Tab {
 }
 
 const Browser = () => {
+  const navigate = useNavigate();
   const [tabs, setTabs] = useState<Tab[]>([
     { id: 1, title: "New Tab", url: "", history: [], historyIndex: -1 }
   ]);
@@ -244,6 +246,12 @@ const Browser = () => {
             <div className="text-center space-y-4">
               <h2 className="text-2xl font-semibold">New Tab</h2>
               <p className="text-muted-foreground">Search Google or enter a URL to browse</p>
+              <Button 
+                onClick={() => navigate('/')}
+                className="mt-4"
+              >
+                Back to Hideout
+              </Button>
             </div>
           </div>
         )}

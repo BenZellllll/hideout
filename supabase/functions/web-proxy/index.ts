@@ -24,20 +24,36 @@ serve(async (req) => {
 
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      },
+      redirect: 'follow'
     });
+
+    if (!response.ok) {
+      console.error('Fetch failed:', response.status, response.statusText);
+      return new Response(
+        JSON.stringify({ 
+          error: `Failed to fetch: ${response.status} ${response.statusText}`,
+          url: url 
+        }),
+        { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
 
     const contentType = response.headers.get('content-type') || '';
     let content = await response.text();
 
-    // If HTML, inject base tag to fix relative URLs
+    // If HTML, inject base tag and remove frame-busting headers
     if (contentType.includes('text/html')) {
       const baseUrl = new URL(url).origin;
-      content = content.replace(
-        '<head>',
-        `<head><base href="${baseUrl}/">`
-      );
+      content = content
+        .replace('<head>', `<head><base href="${baseUrl}/">`)
+        .replace(/<meta[^>]*http-equiv=["']?X-Frame-Options["']?[^>]*>/gi, '')
+        .replace(/<meta[^>]*content=["']?frame-ancestors[^>]*>/gi, '');
     }
 
     return new Response(content, {
@@ -45,6 +61,7 @@ serve(async (req) => {
       headers: {
         ...corsHeaders,
         'Content-Type': contentType,
+        'X-Frame-Options': 'ALLOWALL'
       }
     });
 
