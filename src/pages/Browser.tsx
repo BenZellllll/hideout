@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { ArrowLeft, ArrowRight, RotateCw, X, Plus, Home } from "lucide-react";
+import { ArrowLeft, ArrowRight, RotateCw, X, Plus, Home, Star, History, Download, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -22,6 +23,15 @@ const Browser = () => {
   const [activeTabId, setActiveTabId] = useState(1);
   const [urlInput, setUrlInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [bookmarks, setBookmarks] = useState<string[]>(() => {
+    const saved = localStorage.getItem('browser_bookmarks');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [browserHistory, setBrowserHistory] = useState<{url: string, title: string, timestamp: number}[]>(() => {
+    const saved = localStorage.getItem('browser_history');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [error, setError] = useState<string | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const nextTabId = useRef(2);
 
@@ -32,6 +42,14 @@ const Browser = () => {
       setUrlInput(activeTab.url);
     }
   }, [activeTabId, activeTab?.url]);
+
+  useEffect(() => {
+    localStorage.setItem('browser_bookmarks', JSON.stringify(bookmarks));
+  }, [bookmarks]);
+
+  useEffect(() => {
+    localStorage.setItem('browser_history', JSON.stringify(browserHistory));
+  }, [browserHistory]);
 
   const processUrl = (input: string): string => {
     if (!input) return "";
@@ -53,6 +71,7 @@ const Browser = () => {
     if (!url) return;
 
     setLoading(true);
+    setError(null);
     try {
       const { data, error } = await supabase.functions.invoke('web-proxy', {
         body: { url }
@@ -76,6 +95,13 @@ const Browser = () => {
         return tab;
       }));
 
+      // Add to browser history
+      setBrowserHistory(prev => [{
+        url,
+        title: new URL(url).hostname,
+        timestamp: Date.now()
+      }, ...prev.slice(0, 99)]);
+
       // Render content in iframe
       if (iframeRef.current) {
         const doc = iframeRef.current.contentDocument;
@@ -88,7 +114,9 @@ const Browser = () => {
 
     } catch (error) {
       console.error('Error loading page:', error);
-      toast.error("Failed to load page");
+      const errorMsg = "Unable to load this page. Some sites block browser embedding for security.";
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -164,6 +192,32 @@ const Browser = () => {
     });
   };
 
+  const toggleBookmark = () => {
+    if (!activeTab?.url) return;
+    
+    setBookmarks(prev => {
+      if (prev.includes(activeTab.url)) {
+        toast.success("Bookmark removed");
+        return prev.filter(b => b !== activeTab.url);
+      } else {
+        toast.success("Bookmark added");
+        return [...prev, activeTab.url];
+      }
+    });
+  };
+
+  const isBookmarked = activeTab?.url ? bookmarks.includes(activeTab.url) : false;
+
+  const clearHistory = () => {
+    setBrowserHistory([]);
+    toast.success("History cleared");
+  };
+
+  const clearBookmarks = () => {
+    setBookmarks([]);
+    toast.success("Bookmarks cleared");
+  };
+
   return (
     <div className="h-screen flex flex-col bg-background">
       {/* Tab Bar */}
@@ -222,34 +276,137 @@ const Browser = () => {
           <Home className="h-4 w-4" />
         </Button>
         
-        <form onSubmit={(e) => { e.preventDefault(); handleNavigate(); }} className="flex-1">
+        <form onSubmit={(e) => { e.preventDefault(); handleNavigate(); }} className="flex-1 flex items-center gap-2">
           <Input
             value={urlInput}
             onChange={(e) => setUrlInput(e.target.value)}
             placeholder="Search Google or type a URL"
-            className="w-full"
+            className="flex-1"
           />
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={toggleBookmark}
+            disabled={!activeTab?.url}
+          >
+            <Star className={`h-4 w-4 ${isBookmarked ? 'fill-primary' : ''}`} />
+          </Button>
         </form>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Settings className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-64">
+            <DropdownMenuItem disabled className="font-semibold">
+              Bookmarks
+            </DropdownMenuItem>
+            {bookmarks.length === 0 ? (
+              <DropdownMenuItem disabled className="text-muted-foreground">
+                No bookmarks yet
+              </DropdownMenuItem>
+            ) : (
+              bookmarks.slice(0, 5).map((bookmark, i) => (
+                <DropdownMenuItem 
+                  key={i}
+                  onClick={() => {
+                    setUrlInput(bookmark);
+                    activeTab && loadUrl(bookmark, activeTab.id);
+                  }}
+                >
+                  <Star className="h-3 w-3 mr-2 fill-primary" />
+                  {new URL(bookmark).hostname}
+                </DropdownMenuItem>
+              ))
+            )}
+            {bookmarks.length > 0 && (
+              <DropdownMenuItem onClick={clearBookmarks} className="text-destructive">
+                Clear all bookmarks
+              </DropdownMenuItem>
+            )}
+            
+            <DropdownMenuSeparator />
+            
+            <DropdownMenuItem disabled className="font-semibold">
+              <History className="h-3 w-3 mr-2" />
+              Recent History
+            </DropdownMenuItem>
+            {browserHistory.length === 0 ? (
+              <DropdownMenuItem disabled className="text-muted-foreground">
+                No history yet
+              </DropdownMenuItem>
+            ) : (
+              browserHistory.slice(0, 5).map((item, i) => (
+                <DropdownMenuItem 
+                  key={i}
+                  onClick={() => {
+                    setUrlInput(item.url);
+                    activeTab && loadUrl(item.url, activeTab.id);
+                  }}
+                >
+                  {item.title}
+                </DropdownMenuItem>
+              ))
+            )}
+            {browserHistory.length > 0 && (
+              <DropdownMenuItem onClick={clearHistory} className="text-destructive">
+                Clear history
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {/* Content Area */}
-      <div className="flex-1 bg-background">
+      <div className="flex-1 bg-background relative">
+        {error && (
+          <div className="absolute top-0 left-0 right-0 bg-destructive text-destructive-foreground p-4 z-10">
+            <p className="text-center">{error}</p>
+          </div>
+        )}
         {activeTab?.url ? (
           <iframe
             ref={iframeRef}
             className="w-full h-full border-0"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads"
             title="Browser Content"
           />
         ) : (
           <div className="flex items-center justify-center h-full">
-            <div className="text-center space-y-4">
-              <h2 className="text-2xl font-semibold">New Tab</h2>
-              <p className="text-muted-foreground">Search Google or enter a URL to browse</p>
+            <div className="text-center space-y-6 max-w-md">
+              <h2 className="text-3xl font-semibold">New Tab</h2>
+              <p className="text-muted-foreground">Search Google or enter a URL to browse the web</p>
+              
+              {bookmarks.length > 0 && (
+                <div className="space-y-2">
+                  <h3 className="text-sm font-semibold text-muted-foreground">Quick Access</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {bookmarks.slice(0, 4).map((bookmark, i) => (
+                      <Button
+                        key={i}
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => {
+                          setUrlInput(bookmark);
+                          loadUrl(bookmark, activeTab.id);
+                        }}
+                      >
+                        <Star className="h-3 w-3 mr-2 fill-primary" />
+                        {new URL(bookmark).hostname}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
               <Button 
                 onClick={() => navigate('/')}
+                variant="outline"
                 className="mt-4"
               >
+                <Home className="h-4 w-4 mr-2" />
                 Back to Hideout
               </Button>
             </div>
