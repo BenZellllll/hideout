@@ -1,7 +1,7 @@
 [
   {
     "name": "YouTube",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/YouTube_social_squircle_red_%282017%29.svg/512px-YouTube_social_squircle_red_%282017%29.svg.png",
+    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/YouTube_social_white_square_%282024%29.svg/2048px-YouTube_social_white_square_%282024%29.svg.png",
     "category": "Video",
     "description": "Watch and share videos",
     "link": "https://youtube.com"
@@ -15,241 +15,150 @@
   },
   {
     "name": "Discord",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Discord_Square_Logo.svg/512px-Discord_Square_Logo.svg.png",
+    "icon": "https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHHFT949fUipzkiFOBH3fAiZZUCdYojwUyX2aTonS1aIwMrx6NUIsHfUHSLzjGJFxxsG72wAo9EWJR4yQWyJJaDaK1XdUso6cUMpI9hAdPUU_FNs11cY1X284vsHrnWtRw7oqRpN1m9YAg21d_aNKnIo-&format=source&h=210",
     "category": "Chat",
     "description": "Voice, video, and text chat",
     "link": "https://discord.com"
   },
   {
     "name": "ChatGPT",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/512px-ChatGPT_logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTynxqlGSQMv1aXUCh4tTkXy0twfpzDkku6A&s",
     "category": "AI",
     "description": "AI chatbot assistant",
     "link": "https://chat.openai.com"
   },
   {
-    "name": "Chrome",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/512px-Google_Chrome_icon_%28February_2022%29.svg.png",
-    "category": "Browser",
-    "description": "Web browser by Google",
-    "link": "https://google.com/chrome"
-  },
-  {
     "name": "Gmail",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Circle-icons-mail.svg/512px-Circle-icons-mail.svg.png",
+    "icon": "https://static.vecteezy.com/system/resources/previews/013/948/544/non_2x/gmail-logo-on-transparent-white-background-free-vector.jpg",
     "category": "Productivity",
     "description": "Email service by Google",
     "link": "https://gmail.com"
   },
   {
     "name": "Netflix",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Netflix_icon.svg/512px-Netflix_icon.svg.png",
+    "icon": "https://yt3.googleusercontent.com/CvgBA1ypUZNxOjiCX0l1V2FbAm7oSDPZE4YkMvkpT_4iLXQ3IXWVtBgWnznHxgtcUoj50TXqZA=s900-c-k-c0x00ffffff-no-rj",
     "category": "Video",
     "description": "Stream movies and TV shows",
     "link": "https://netflix.com"
   },
   {
     "name": "Twitch",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Twitch_logo.svg/512px-Twitch_logo.svg.png",
+    "icon": "https://m.media-amazon.com/images/I/21kRx-CJsUL._h1_.png",
     "category": "Video",
     "description": "Live streaming platform",
     "link": "https://twitch.tv"
   },
   {
     "name": "Reddit",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Reddit_logo_square_%282023%29.svg/512px-Reddit_logo_square_%282023%29.svg.png",
+    "icon": "https://store-images.s-microsoft.com/image/apps.15970.14375561300249796.05fe8c27-ce9e-4144-8702-0e81e2f575b1.042364cb-b745-4796-a520-61291e2dd6b9",
     "category": "Social",
     "description": "Social news and discussion",
     "link": "https://reddit.com"
   },
   {
     "name": "Twitter",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/X_logo_2023_%28white%29.svg/512px-X_logo_2023_%28white%29.svg.png",
+    "icon": "https://store-images.s-microsoft.com/image/apps.60673.9007199266244427.4d45042b-d7a5-4a83-be66-97779553b24d.5d82b7eb-9734-4b51-b65d-a0383348ab1b?h=210",
     "category": "Social",
     "description": "Social media platform",
     "link": "https://twitter.com"
   },
   {
     "name": "Instagram",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/512px-Instagram_logo_2016.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3Sxu0lyuJ6iB2d0nYI1-GIKP2VPUPQ4KQvA&s",
     "category": "Social",
     "description": "Photo and video sharing",
     "link": "https://instagram.com"
   },
   {
     "name": "TikTok",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/TikTok_logo.svg/512px-TikTok_logo.svg.png",
+    "icon": "https://sf-static.tiktokcdn.com/obj/eden-sg/uhtyvueh7nulogpoguhm/tiktok-icon2.png",
     "category": "Social",
     "description": "Short-form video platform",
     "link": "https://tiktok.com"
   },
   {
     "name": "Snapchat",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Snapchat_Logo_2024.svg/512px-Snapchat_Logo_2024.svg.png",
+    "icon": "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/1b/26/d7/1b26d773-d3a9-1d2d-da5e-eac6b136ab4c/AppleWatch_Splash.png/300x0w.jpg",
     "category": "Social",
     "description": "Messaging and stories",
     "link": "https://snapchat.com"
   },
   {
     "name": "Facebook",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/512px-2023_Facebook_icon.svg.png",
+    "icon": "https://store-images.s-microsoft.com/image/apps.37935.9007199266245907.b029bd80-381a-4869-854f-bac6f359c5c9.91f8693c-c75b-4050-a796-63e1314d18c9?h=210",
     "category": "Social",
     "description": "Social networking site",
     "link": "https://facebook.com"
   },
   {
     "name": "WhatsApp",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/WhatsApp_icon.png/512px-WhatsApp_icon.png",
+    "icon": "https://store-images.s-microsoft.com/image/apps.8453.13655054093851568.4a371b72-2ce8-4bdb-9d83-be49894d3fa0.7f3687b9-847d-4f86-bb5c-c73259e2b38e",
     "category": "Chat",
     "description": "Messaging app",
     "link": "https://web.whatsapp.com"
   },
   {
     "name": "Telegram",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/512px-Telegram_2019_Logo.svg.png",
+    "icon": "https://store-images.s-microsoft.com/image/apps.55245.13537716651231321.3067a421-6c2f-48a9-b77c-1e38e19146e6.10e2aa49-52ca-4e79-9a61-b6422978afb9?h=210",
     "category": "Chat",
     "description": "Cloud-based messaging",
     "link": "https://web.telegram.org"
   },
   {
     "name": "Slack",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Slack_icon_2019.svg/512px-Slack_icon_2019.svg.png",
+    "icon": "https://avatars.githubusercontent.com/u/6911160?s=280&v=4",
     "category": "Chat",
     "description": "Team communication platform",
     "link": "https://slack.com"
   },
   {
-    "name": "Zoom",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Zoom_Communications_Logo.svg/512px-Zoom_Communications_Logo.svg.png",
-    "category": "Video",
-    "description": "Video conferencing",
-    "link": "https://zoom.us"
-  },
-  {
-    "name": "Google Meet",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Google_Meet_icon_%282020%29.svg/512px-Google_Meet_icon_%282020%29.svg.png",
-    "category": "Video",
-    "description": "Video meetings",
-    "link": "https://meet.google.com"
-  },
-  {
-    "name": "Microsoft Teams",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Microsoft_Office_Teams_%282018%E2%80%93present%29.svg/512px-Microsoft_Office_Teams_%282018%E2%80%93present%29.svg.png",
-    "category": "Video",
-    "description": "Collaboration platform",
-    "link": "https://teams.microsoft.com"
-  },
-  {
-    "name": "Google Drive",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Google_Drive_icon_%282020%29.svg/512px-Google_Drive_icon_%282020%29.svg.png",
-    "category": "Productivity",
-    "description": "Cloud storage service",
-    "link": "https://drive.google.com"
-  },
-  {
     "name": "Dropbox",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Dropbox_Icon.svg/512px-Dropbox_Icon.svg.png",
+    "icon": "https://play-lh.googleusercontent.com/b1-MIBjlMD9kvl0Okeglm9BL9ejRpOXMio303W0tiLb8Ul5WuVzBDoDKgGRcALOsCdw=w240-h480-rw",
     "category": "Productivity",
     "description": "File hosting service",
     "link": "https://dropbox.com"
   },
   {
     "name": "OneDrive",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/OneDrive_Logo.svg/512px-OneDrive_Logo.svg.png",
+    "icon": "https://static.wikia.nocookie.net/logopedia/images/3/3a/OneDrive_2013_App.svg/revision/latest/scale-to-width-down/250?cb=20210317082633",
     "category": "Productivity",
     "description": "Microsoft cloud storage",
     "link": "https://onedrive.live.com"
   },
   {
     "name": "Notion",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Notion-logo.svg/512px-Notion-logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_YWUotEbuX7-L0y0FRaU_ZJPL62KaeyRRvKjOvKryeBf27qrDAeiHC2O0NERiygcUsrE&usqp=CAU",
     "category": "Productivity",
     "description": "Notes and collaboration",
     "link": "https://notion.so"
   },
   {
-    "name": "Google Docs",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Google_Docs_logo_%282014-2020%29.svg/512px-Google_Docs_logo_%282014-2020%29.svg.png",
-    "category": "Productivity",
-    "description": "Online document editor",
-    "link": "https://docs.google.com"
-  },
-  {
-    "name": "Google Sheets",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Google_Sheets_logo_%282014-2020%29.svg/512px-Google_Sheets_logo_%282014-2020%29.svg.png",
-    "category": "Productivity",
-    "description": "Online spreadsheet tool",
-    "link": "https://sheets.google.com"
-  },
-  {
-    "name": "Google Slides",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/Google_Slides_2020_Logo.svg/512px-Google_Slides_2020_Logo.svg.png",
-    "category": "Productivity",
-    "description": "Presentation software",
-    "link": "https://slides.google.com"
-  },
-  {
-    "name": "Canva",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Canva_Logo.svg/512px-Canva_Logo.svg.png",
-    "category": "Design",
-    "description": "Graphic design platform",
-    "link": "https://canva.com"
-  },
-  {
-    "name": "Figma",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Figma-logo.svg/512px-Figma-logo.svg.png",
-    "category": "Design",
-    "description": "Collaborative design tool",
-    "link": "https://figma.com"
-  },
-  {
     "name": "GitHub",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/GitHub_Invertocat_Logo.svg/512px-GitHub_Invertocat_Logo.svg.png",
+    "icon": "https://cdn-1.webcatalog.io/catalog/github/github-icon-filled-256.png?v=1756687729671",
     "category": "Development",
     "description": "Code hosting platform",
     "link": "https://github.com"
   },
   {
     "name": "Stack Overflow",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Stack_Overflow_icon.svg/512px-Stack_Overflow_icon.svg.png",
+    "icon": "https://pbs.twimg.com/profile_images/1220067947798024192/30eZhfxx_400x400.png",
     "category": "Development",
     "description": "Q&A for programmers",
     "link": "https://stackoverflow.com"
   },
   {
     "name": "CodePen",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/CodePen_white_background_logo.svg/512px-CodePen_white_background_logo.svg.png",
+    "icon": "https://media.licdn.com/dms/image/v2/C560BAQGKtd1slGeUMA/company-logo_200_200/company-logo_200_200/0/1630571543819/codepen_logo?e=2147483647&v=beta&t=0_wc-rXCGN9XLQt3V5jn-DmWQt6PYI-W-TLtoO4gWZM",
     "category": "Development",
     "description": "Online code editor",
     "link": "https://codepen.io"
   },
   {
     "name": "Replit",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Repl.it_logo.svg/512px-Repl.it_logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr0nbYZD5RAxcUupTf6_4tjmcuPbR_MuuB_w&s",
     "category": "Development",
     "description": "Online IDE",
     "link": "https://replit.com"
-  },
-  {
-    "name": "Khan Academy",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Khan_Academy_Logo_old_version_2015.svg/512px-Khan_Academy_Logo_old_version_2015.svg.png",
-    "category": "Education",
-    "description": "Free online courses",
-    "link": "https://khanacademy.org"
-  },
-  {
-    "name": "Duolingo",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Duolingo_logo_2019.svg/512px-Duolingo_logo_2019.svg.png",
-    "category": "Education",
-    "description": "Language learning app",
-    "link": "https://duolingo.com"
-  },
-  {
-    "name": "Quizlet",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Quizlet_App_Store_logo.svg/512px-Quizlet_App_Store_logo.svg.png",
-    "category": "Education",
-    "description": "Study tools and flashcards",
-    "link": "https://quizlet.com"
   },
   {
     "name": "Coursera",
@@ -259,444 +168,157 @@
     "link": "https://coursera.org"
   },
   {
-    "name": "Wikipedia",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Wikipedia-logo-v2.svg/512px-Wikipedia-logo-v2.svg.png",
-    "category": "Education",
-    "description": "Free online encyclopedia",
-    "link": "https://wikipedia.org"
-  },
-  {
     "name": "SoundCloud",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Antu_soundcloud.svg/512px-Antu_soundcloud.svg.png",
+    "icon": "https://i1.sndcdn.com/avatars-wQ2we7uDPoXzUVzW-qdr1Yg-t240x240.jpg",
     "category": "Music",
     "description": "Music streaming service",
     "link": "https://soundcloud.com"
   },
   {
     "name": "Apple Music",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Apple_Music_logo.svg/512px-Apple_Music_logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-tVbKhy2iOODJu6sLFpbi0iUvedtqXh29Hw&s",
     "category": "Music",
     "description": "Music streaming by Apple",
     "link": "https://music.apple.com"
   },
   {
     "name": "Amazon Music",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Amazon_Music_logo.svg/512px-Amazon_Music_logo.svg.png",
+    "icon": "https://yt3.googleusercontent.com/vXVNL_IU8NxwsJ4GpdX3yJW2R5nwVhJoYBXz96VpGsiaBWtOwj59IL4S5O3YuoQQAMArOpizpg=s900-c-k-c0x00ffffff-no-rj",
     "category": "Music",
     "description": "Music streaming by Amazon",
     "link": "https://music.amazon.com"
   },
   {
     "name": "Hulu",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Hulu_2019.svg/512px-Hulu_2019.svg.png",
+    "icon": "https://play-lh.googleusercontent.com/lH3MWp-oZRi39j_XcWqKOtnv7fyLNmH35agp_pR-TdjQLkuEP77HK5_yI9KwKIKI4U01",
     "category": "Video",
     "description": "Streaming TV and movies",
     "link": "https://hulu.com"
   },
   {
     "name": "Disney+",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Disney%2B_icon.svg/512px-Disney%2B_icon.svg.png",
+    "icon": "https://m.media-amazon.com/images/I/719t3jd2NeL.png",
     "category": "Video",
     "description": "Disney streaming service",
     "link": "https://disneyplus.com"
   },
   {
     "name": "Prime Video",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Amazon_Prime_Video_logo.svg/512px-Amazon_Prime_Video_logo.svg.png",
+    "icon": "https://m.media-amazon.com/images/I/31W9hs7w0JL.png",
     "category": "Video",
     "description": "Amazon streaming service",
     "link": "https://primevideo.com"
   },
   {
-    "name": "Vimeo",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Vimeo_Logo_White_Background.svg/512px-Vimeo_Logo_White_Background.svg.png",
-    "category": "Video",
-    "description": "Video hosting platform",
-    "link": "https://vimeo.com"
-  },
-  {
-    "name": "Crunchyroll",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Crunchyroll_Logo.svg/512px-Crunchyroll_Logo.svg.png",
-    "category": "Video",
-    "description": "Anime streaming service",
-    "link": "https://crunchyroll.com"
-  },
-  {
     "name": "Steam",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGvuKJiVA1-WtJ81X8FDVFIsBQXGWzzxqzuA&s",
     "category": "Gaming",
     "description": "Gaming platform",
     "link": "https://store.steampowered.com"
   },
   {
     "name": "Epic Games",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Epic_Games_logo.svg/512px-Epic_Games_logo.svg.png",
+    "icon": "https://images-eds-ssl.xboxlive.com/image?url=4rt9.lXDC4H_93laV1_eHM0OYfiFeMI2p9MWie0CvL99U4GA1gf6_kayTt_kBblFwHwo8BW8JXlqfnYxKPmmBaCZi8ClpwbXOgA6G7dvea_zrF.gU8crDBsE8CEYlpitDvfcjjOeAcKJZ5sLQBUCmB414kSXwCeJ3MpVrNXR.x0-&format=source",
     "category": "Gaming",
     "description": "Game store and launcher",
     "link": "https://epicgames.com"
   },
   {
     "name": "Xbox",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Xbox_one_logo.svg/512px-Xbox_one_logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8bqcn8xTGlSw5XjXm8-LKRnIfIa_uW2TCjA&s",
     "category": "Gaming",
     "description": "Xbox gaming platform",
     "link": "https://xbox.com"
   },
   {
     "name": "PlayStation",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Playstation_logo_colour.svg/512px-Playstation_logo_colour.svg.png",
+    "icon": "https://upload.wikimedia.org/wikipedia/commons/9/91/PlayStation_App_Icon.jpg",
     "category": "Gaming",
     "description": "PlayStation gaming platform",
     "link": "https://playstation.com"
   },
   {
     "name": "Nintendo",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Nintendo.svg/512px-Nintendo.svg.png",
+    "icon": "https://media.licdn.com/dms/image/v2/C510BAQGpMrVyXTAJAQ/company-logo_200_200/company-logo_200_200/0/1631310437397?e=2147483647&v=beta&t=-jfuIp5nIdsiQRxeiVgd20M--3jN3nGZXY4rXmNIeWQ",
     "category": "Gaming",
     "description": "Nintendo gaming platform",
     "link": "https://nintendo.com"
   },
   {
-    "name": "Roblox",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Roblox_Logo.svg/512px-Roblox_Logo.svg.png",
-    "category": "Gaming",
-    "description": "Online game platform",
-    "link": "https://roblox.com"
-  },
-  {
-    "name": "Minecraft",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Minecraft_logo.svg/512px-Minecraft_logo.svg.png",
-    "category": "Gaming",
-    "description": "Sandbox video game",
-    "link": "https://minecraft.net"
-  },
-  {
     "name": "Amazon",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Amazon_icon.png/512px-Amazon_icon.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_acIokFYk2PyFtljx2fBacLx22Pv2Lz-fhw&s",
     "category": "Shopping",
     "description": "Online shopping",
     "link": "https://amazon.com"
   },
   {
     "name": "eBay",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/EBay_logo.png/512px-EBay_logo.png",
+    "icon": "https://yt3.googleusercontent.com/ytc/AIdro_lfmny2grDyscetfprmiXcbsdU1ce4hlBRACj2g3lsX29ZM=s900-c-k-c0x00ffffff-no-rj",
     "category": "Shopping",
     "description": "Online marketplace",
     "link": "https://ebay.com"
   },
   {
     "name": "Etsy",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Etsy_logo_lg_rgb.png/512px-Etsy_logo_lg_rgb.png",
+    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Etsy_icon.svg/2048px-Etsy_icon.svg.png",
     "category": "Shopping",
     "description": "Handmade and vintage items",
     "link": "https://etsy.com"
   },
   {
     "name": "PayPal",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/PayPal_logo.svg/512px-PayPal_logo.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7ZzAQ7_RJvImwYqhZjYg30S6Yms4APoMPpA&s",
     "category": "Finance",
     "description": "Online payment system",
     "link": "https://paypal.com"
   },
   {
     "name": "Venmo",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Venmo_logo_blue.svg/512px-Venmo_logo_blue.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8RLAt5LldJJ7Q49uJZCAO7N4SnwpG0V3k-Q&s",
     "category": "Finance",
     "description": "Mobile payment service",
     "link": "https://venmo.com"
   },
   {
     "name": "Cash App",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Square_Cash_app_logo.svg/512px-Square_Cash_app_logo.svg.png",
+    "icon": "https://play-lh.googleusercontent.com/s7I0yvyhwfecAh8wm8HvaPekT9197kfPQQKPvQ1QTkt2M-mmPaeqrdVUqoOiG6mv9r4=w240-h480-rw",
     "category": "Finance",
     "description": "Mobile payment app",
     "link": "https://cash.app"
   },
   {
-    "name": "Trello",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Trello-logo-blue.svg/512px-Trello-logo-blue.svg.png",
-    "category": "Productivity",
-    "description": "Project management tool",
-    "link": "https://trello.com"
-  },
-  {
-    "name": "Asana",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Asana_logo_2020.svg/512px-Asana_logo_2020.svg.png",
-    "category": "Productivity",
-    "description": "Work management platform",
-    "link": "https://asana.com"
-  },
-  {
-    "name": "Microsoft Word",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Microsoft_Office_Word_%282019%E2%80%93present%29.svg/512px-Microsoft_Office_Word_%282019%E2%80%93present%29.svg.png",
-    "category": "Productivity",
-    "description": "Word processing software",
-    "link": "https://office.com/launch/word"
-  },
-  {
-    "name": "Microsoft Excel",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Microsoft_Office_Excel_%282019%E2%80%93present%29.svg/512px-Microsoft_Office_Excel_%282019%E2%80%93present%29.svg.png",
-    "category": "Productivity",
-    "description": "Spreadsheet software",
-    "link": "https://office.com/launch/excel"
-  },
-  {
-    "name": "Microsoft PowerPoint",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Microsoft_Office_PowerPoint_%282019%E2%80%93present%29.svg/512px-Microsoft_Office_PowerPoint_%282019%E2%80%93present%29.svg.png",
-    "category": "Productivity",
-    "description": "Presentation software",
-    "link": "https://office.com/launch/powerpoint"
-  },
-  {
-    "name": "Adobe Photoshop",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/512px-Adobe_Photoshop_CC_icon.svg.png",
-    "category": "Design",
-    "description": "Photo editing software",
-    "link": "https://adobe.com/products/photoshop.html"
-  },
-  {
-    "name": "Adobe Illustrator",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Adobe_Illustrator_CC_icon.svg/512px-Adobe_Illustrator_CC_icon.svg.png",
-    "category": "Design",
-    "description": "Vector graphics editor",
-    "link": "https://adobe.com/products/illustrator.html"
-  },
-  {
     "name": "Pinterest",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Pinterest-logo.png/512px-Pinterest-logo.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWQmKvZzM7NeNuWl3SCSdzWEeBjt9yzUiPlg&s",
     "category": "Social",
     "description": "Visual discovery platform",
     "link": "https://pinterest.com"
   },
   {
     "name": "LinkedIn",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/512px-LinkedIn_icon.svg.png",
+    "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyxt5q7brBCDrZR3kRQJoDDiymyaXF16PDFA&s",
     "category": "Social",
     "description": "Professional networking",
     "link": "https://linkedin.com"
   },
   {
     "name": "Tumblr",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Tumblr.svg/512px-Tumblr.svg.png",
+    "icon": "https://play-lh.googleusercontent.com/G4R3eZm3sDGJk0lVCOr72BwLFIYV0Jg5G7_PBOf9ZMpWwZjXaUdoZMyjFbJwxcmF5qBH",
     "category": "Social",
     "description": "Microblogging platform",
     "link": "https://tumblr.com"
   },
   {
     "name": "Flickr",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Flickr.svg/512px-Flickr.svg.png",
+    "icon": "https://media.licdn.com/dms/image/v2/C4D0BAQHgpt-I2P2SuA/company-logo_200_200/company-logo_200_200/0/1630570956303/flickr_logo?e=2147483647&v=beta&t=dYPXC9zy_rMCuFx1Fj4e3-IaduKVJTYSjoPxH3Ix67s",
     "category": "Social",
     "description": "Photo sharing platform",
     "link": "https://flickr.com"
   },
   {
     "name": "Quora",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Quora_logo_2015.svg/512px-Quora_logo_2015.svg.png",
+    "icon": "https://avatars.githubusercontent.com/u/68739?s=280&v=4",
     "category": "Social",
     "description": "Q&A community",
     "link": "https://quora.com"
-  },
-  {
-    "name": "Medium",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Medium_logo_Monogram.svg/512px-Medium_logo_Monogram.svg.png",
-    "category": "Social",
-    "description": "Online publishing platform",
-    "link": "https://medium.com"
-  },
-  {
-    "name": "Evernote",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Evernote_Logo_2021.svg/512px-Evernote_Logo_2021.svg.png",
-    "category": "Productivity",
-    "description": "Note-taking app",
-    "link": "https://evernote.com"
-  },
-  {
-    "name": "OneNote",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Microsoft_Office_OneNote_%282018%E2%80%93present%29.svg/512px-Microsoft_Office_OneNote_%282018%E2%80%93present%29.svg.png",
-    "category": "Productivity",
-    "description": "Digital note-taking",
-    "link": "https://onenote.com"
-  },
-  {
-    "name": "Grammarly",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Grammarly_logo_2020.svg/512px-Grammarly_logo_2020.svg.png",
-    "category": "Productivity",
-    "description": "Writing assistant",
-    "link": "https://grammarly.com"
-  },
-  {
-    "name": "Google Calendar",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Calendar_icon_%282020%29.svg/512px-Google_Calendar_icon_%282020%29.svg.png",
-    "category": "Productivity",
-    "description": "Online calendar",
-    "link": "https://calendar.google.com"
-  },
-  {
-    "name": "Outlook",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Microsoft_Office_Outlook_%282018%E2%80%93present%29.svg/512px-Microsoft_Office_Outlook_%282018%E2%80%93present%29.svg.png",
-    "category": "Productivity",
-    "description": "Email and calendar service",
-    "link": "https://outlook.com"
-  },
-  {
-    "name": "Skype",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Skype_logo_%282019%E2%80%93present%29.svg/512px-Skype_logo_%282019%E2%80%93present%29.svg.png",
-    "category": "Chat",
-    "description": "Video and voice calling",
-    "link": "https://skype.com"
-  },
-  {
-    "name": "Spotify Podcasts",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Spotify_icon.svg/512px-Spotify_icon.svg.png",
-    "category": "Music",
-    "description": "Podcast platform",
-    "link": "https://open.spotify.com/genre/podcasts"
-  },
-  {
-    "name": "Apple Podcasts",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Podcasts_%28iOS%29.svg/512px-Podcasts_%28iOS%29.svg.png",
-    "category": "Music",
-    "description": "Podcast platform by Apple",
-    "link": "https://podcasts.apple.com"
-  },
-  {
-    "name": "Uber",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Uber_App_Icon.svg/512px-Uber_App_Icon.svg.png",
-    "category": "Travel",
-    "description": "Ride-sharing service",
-    "link": "https://uber.com"
-  },
-  {
-    "name": "Lyft",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Lyft_Pink_Logo.svg/512px-Lyft_Pink_Logo.svg.png",
-    "category": "Travel",
-    "description": "Ride-sharing app",
-    "link": "https://lyft.com"
-  },
-  {
-    "name": "DoorDash",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/DoorDash_Logo.svg/512px-DoorDash_Logo.svg.png",
-    "category": "Food",
-    "description": "Food delivery service",
-    "link": "https://doordash.com"
-  },
-  {
-    "name": "Uber Eats",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Uber_Eats_2020_logo.svg/512px-Uber_Eats_2020_logo.svg.png",
-    "category": "Food",
-    "description": "Food delivery app",
-    "link": "https://ubereats.com"
-  },
-  {
-    "name": "Grubhub",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Grubhub_Logo_2016.svg/512px-Grubhub_Logo_2016.svg.png",
-    "category": "Food",
-    "description": "Online food ordering",
-    "link": "https://grubhub.com"
-  },
-  {
-    "name": "Airbnb",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/512px-Airbnb_Logo_B%C3%A9lo.svg.png",
-    "category": "Travel",
-    "description": "Vacation rental marketplace",
-    "link": "https://airbnb.com"
-  },
-  {
-    "name": "Booking.com",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/512px-Booking.com_logo.svg.png",
-    "category": "Travel",
-    "description": "Hotel booking platform",
-    "link": "https://booking.com"
-  },
-  {
-    "name": "Google Maps",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Google_Maps_icon_%282020%29.svg/512px-Google_Maps_icon_%282020%29.svg.png",
-    "category": "Travel",
-    "description": "Navigation and maps",
-    "link": "https://maps.google.com"
-  },
-  {
-    "name": "Waze",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Waze_Icon.svg/512px-Waze_Icon.svg.png",
-    "category": "Travel",
-    "description": "GPS navigation app",
-    "link": "https://waze.com"
-  },
-  {
-    "name": "Yelp",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Yelp_Logo.svg/512px-Yelp_Logo.svg.png",
-    "category": "Food",
-    "description": "Business reviews",
-    "link": "https://yelp.com"
-  },
-  {
-    "name": "Google Translate",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Google_Translate_Icon.png/512px-Google_Translate_Icon.png",
-    "category": "Utility",
-    "description": "Language translation",
-    "link": "https://translate.google.com"
-  },
-  {
-    "name": "Wolfram Alpha",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Wolfram_Alpha_Logo.svg/512px-Wolfram_Alpha_Logo.svg.png",
-    "category": "Education",
-    "description": "Computational knowledge engine",
-    "link": "https://wolframalpha.com"
-  },
-  {
-    "name": "Desmos",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Desmos_logo.svg/512px-Desmos_logo.svg.png",
-    "category": "Education",
-    "description": "Graphing calculator",
-    "link": "https://desmos.com/calculator"
-  },
-  {
-    "name": "Photomath",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Photomath_Logo.png/512px-Photomath_Logo.png",
-    "category": "Education",
-    "description": "Math problem solver",
-    "link": "https://photomath.com"
-  },
-  {
-    "name": "Kahoot",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Kahoot%21_logo_%282023%29.svg/512px-Kahoot%21_logo_%282023%29.svg.png",
-    "category": "Education",
-    "description": "Learning game platform",
-    "link": "https://kahoot.com"
-  },
-  {
-    "name": "Blooket",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Blooket_Logo.svg/512px-Blooket_Logo.svg.png",
-    "category": "Gaming",
-    "description": "Educational game platform",
-    "link": "https://blooket.com"
-  },
-  {
-    "name": "Gimkit",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Gimkit_Logo_2020.svg/512px-Gimkit_Logo_2020.svg.png",
-    "category": "Gaming",
-    "description": "Live learning game",
-    "link": "https://gimkit.com"
-  },
-  {
-    "name": "Coolmath Games",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Coolmath_Games_logo.svg/512px-Coolmath_Games_logo.svg.png",
-    "category": "Gaming",
-    "description": "Educational game site",
-    "link": "https://coolmathgames.com"
-  },
-  {
-    "name": "Poki",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Poki_logo.svg/512px-Poki_logo.svg.png",
-    "category": "Gaming",
-    "description": "Free online games",
-    "link": "https://poki.com"
-  },
-  {
-    "name": "Google Earth",
-    "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Google_Earth_icon.svg/512px-Google_Earth_icon.svg.png",
-    "category": "Education",
-    "description": "Virtual globe and map",
-    "link": "https://earth.google.com"
   }
 ]
