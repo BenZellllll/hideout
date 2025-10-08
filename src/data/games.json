@@ -261,7 +261,7 @@
   {
     "name": "Cookie Clicker",
     "icon": "https://hideout-games.vercel.app/cookie-clicker/cookieclicker.png",
-    "popularity": ["popular"],
+    "popularity": ["hot"],
     "categories": ["Arcade", "Simulation"],
     "gameLink": "https://hideout-games.vercel.app/cookie-clicker/index.html"
   },
@@ -1080,7 +1080,7 @@
   {
     "name": "Subway Surfers",
     "icon": "https://hideout-games.vercel.app/subway-surfers/img/splash.jpg",
-    "popularity": ["popular"],
+    "popularity": ["hot"],
     "categories": ["Arcade", "Classic"],
     "gameLink": "https://hideout-games.vercel.app/subway-surfers/index.html"
   },
