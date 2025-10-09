@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ContextMenu } from "@/components/ContextMenu";
+import { UpdateDialog } from "@/components/UpdateDialog";
 import Index from "./pages/Index";
 import Games from "./pages/Games";
 import GamePlayer from "./pages/GamePlayer";
@@ -41,6 +42,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <UpdateDialog />
         <BrowserRouter>
           {contextMenu && (
             <ContextMenu
