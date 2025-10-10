@@ -30,6 +30,19 @@ export const GlobalChat = () => {
   }, [isOpen]);
 
   const checkUser = async () => {
+    // Prefer Hideout's own account system first (matches DB RLS on public.users)
+    const storedUser = localStorage.getItem('hideout_user') || sessionStorage.getItem('hideout_user');
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        if (userData?.id) {
+          setUser(userData);
+          return;
+        }
+      } catch {}
+    }
+
+    // Fallback to Supabase auth user (may not map to public.users)
     try {
       const { data: { user: authUser } } = await supabase.auth.getUser();
       if (authUser) {
@@ -38,17 +51,7 @@ export const GlobalChat = () => {
       }
     } catch {}
 
-    const storedUser = localStorage.getItem('hideout_user') || sessionStorage.getItem('hideout_user');
-    if (storedUser) {
-      try {
-        const userData = JSON.parse(storedUser);
-        setUser(userData);
-      } catch (error) {
-        setUser(null);
-      }
-    } else {
-      setUser(null);
-    }
+    setUser(null);
   };
 
   const fetchMessages = async () => {
@@ -156,18 +159,20 @@ export const GlobalChat = () => {
     e.preventDefault();
     if (!newMessage.trim()) return;
 
-    // Accept either Supabase session or custom user from storage
-    const { data: { user: authUser } } = await supabase.auth.getUser();
-    let userId: string | null = authUser?.id || null;
+    // Prefer Hideout account (public.users) to satisfy RLS policy, then fallback to Supabase auth
+    let userId: string | null = null;
+
+    const storedUser = localStorage.getItem('hideout_user') || sessionStorage.getItem('hideout_user');
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        userId = parsed?.id || null;
+      } catch {}
+    }
 
     if (!userId) {
-      const storedUser = localStorage.getItem('hideout_user') || sessionStorage.getItem('hideout_user');
-      if (storedUser) {
-        try {
-          const parsed = JSON.parse(storedUser);
-          userId = parsed?.id || null;
-        } catch {}
-      }
+      const { data: { user: authUser } } = await supabase.auth.getUser();
+      userId = authUser?.id || null;
     }
 
     if (!userId) {

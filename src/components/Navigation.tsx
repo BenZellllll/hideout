@@ -21,12 +21,18 @@ export const Navigation = () => {
       <div className="w-full px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo with rounded container */}
-          <Link to="/" className="bg-card/50 backdrop-blur-md rounded-2xl px-6 py-3 border border-border/50 hover:border-primary/30 transition-colors">
+          <Link to="/" className="bg-card/50 backdrop-blur-md rounded-2xl px-6 py-3 border border-border/50 hover:border-primary/30 transition-colors group">
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-foreground">
                 Hideout<span className="text-primary">.</span>
               </span>
-              <span className="text-xs text-muted-foreground">{versionData.version}</span>
+              <Link 
+                to="/changelog" 
+                className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {versionData.version}
+              </Link>
             </div>
           </Link>
 

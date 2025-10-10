@@ -2,21 +2,22 @@ import { useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import updateData from "@/data/update.json";
+import updatesData from "@/data/updates.json";
 
 export const UpdateDialog = () => {
   const [open, setOpen] = useState(false);
+  const latestUpdate = updatesData.sort((a, b) => b.updateNumber - a.updateNumber)[0];
 
   useEffect(() => {
     // Check if user has seen this version's update
-    const seenUpdate = localStorage.getItem(`hideout_update_${updateData.version}`);
+    const seenUpdate = localStorage.getItem(`hideout_update_${latestUpdate.version}`);
     if (!seenUpdate) {
       setOpen(true);
     }
-  }, []);
+  }, [latestUpdate.version]);
 
   const handleClose = () => {
-    localStorage.setItem(`hideout_update_${updateData.version}`, 'true');
+    localStorage.setItem(`hideout_update_${latestUpdate.version}`, 'true');
     setOpen(false);
   };
 
@@ -25,7 +26,7 @@ export const UpdateDialog = () => {
       <DialogContent className="sm:max-w-[500px] bg-card border-border">
         <DialogHeader>
           <DialogTitle className="text-center text-2xl font-bold">
-            Update ({updateData.version})
+            Update ({latestUpdate.version})
           </DialogTitle>
         </DialogHeader>
         
@@ -34,7 +35,7 @@ export const UpdateDialog = () => {
             <h3 className="font-semibold text-sm text-muted-foreground mb-2">Changelog</h3>
             <ScrollArea className="h-[300px] w-full rounded-md border border-border p-4">
               <div className="space-y-2">
-                {updateData.changes.map((change, index) => (
+                {latestUpdate.changes.map((change, index) => (
                   <div key={index} className="flex items-start gap-2">
                     <span className="text-primary mt-1">•</span>
                     <p 
@@ -48,7 +49,7 @@ export const UpdateDialog = () => {
           </div>
           
           <p className="text-xs text-muted-foreground text-center">
-            Update Date: {updateData.updateDate}
+            Update Date: {latestUpdate.updateDate}
           </p>
         </div>
 
