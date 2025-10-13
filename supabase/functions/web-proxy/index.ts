@@ -60,15 +60,26 @@ serve(async (req) => {
 
     console.log('Proxying request to:', url);
 
+    // Forward cookies from request if any
+    const requestCookies = req.headers.get('cookie') || '';
+    
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.9',
         'Cache-Control': 'no-cache',
+        'Cookie': requestCookies,
+        'Referer': url,
+        'Origin': new URL(url).origin,
       },
-      redirect: 'follow'
+      redirect: 'follow',
+      credentials: 'include'
     });
+
+    // Forward cookies from response
+    const responseCookies = response.headers.get('set-cookie') || '';
+
 
     if (!response.ok) {
       console.error('Fetch failed:', response.status, response.statusText);
@@ -97,6 +108,32 @@ serve(async (req) => {
         const functionBase='${functionBase}';
         const currentUrl='${url}';
         const toProxy=(u)=>{ try{ if(!u) return u; const abs=new URL(u, currentUrl).href; return functionBase+'?url='+encodeURIComponent(abs);}catch{return u;}};
+        
+        // Override fetch to proxy requests
+        const originalFetch = window.fetch;
+        window.fetch = function(resource, init) {
+          if (typeof resource === 'string' && !resource.startsWith('blob:') && !resource.startsWith('data:')) {
+            try {
+              const proxied = toProxy(resource);
+              return originalFetch(proxied, init);
+            } catch(e) {
+              return originalFetch(resource, init);
+            }
+          }
+          return originalFetch(resource, init);
+        };
+        
+        // Override XMLHttpRequest
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url, ...rest) {
+          if (typeof url === 'string' && !url.startsWith('blob:') && !url.startsWith('data:')) {
+            try {
+              url = toProxy(url);
+            } catch(e) {}
+          }
+          return originalOpen.call(this, method, url, ...rest);
+        };
+        
         function rewrite(){
           document.querySelectorAll('a[href]').forEach(a=>{ const href=a.getAttribute('href'); if(href && !href.startsWith('#') && !href.startsWith('javascript:')){ a.setAttribute('data-original-href', href); a.href=toProxy(href);} });
           document.querySelectorAll('form[action]').forEach(f=>{ const action=f.getAttribute('action'); if(action){ f.setAttribute('data-original-action', action); f.action=toProxy(action);} });
@@ -119,13 +156,15 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         html: content,
-        success: true 
+        success: true,
+        cookies: responseCookies
       }),
       { 
         status: 200, 
         headers: { 
           ...corsHeaders, 
-          'Content-Type': 'application/json' 
+          'Content-Type': 'application/json',
+          ...(responseCookies ? { 'Set-Cookie': responseCookies } : {})
         } 
       }
     );
