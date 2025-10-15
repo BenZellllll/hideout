@@ -11,7 +11,7 @@ export const GameLoader = ({ gameName, gameImage, onLoadComplete }: GameLoaderPr
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
-    const duration = 15000; // 15 seconds
+    const duration = 8000; // 8 seconds
     const startTime = Date.now();
 
     const animate = () => {
@@ -28,100 +28,76 @@ export const GameLoader = ({ gameName, gameImage, onLoadComplete }: GameLoaderPr
           // Complete after fade animation
           setTimeout(() => {
             onLoadComplete();
-          }, 1000);
-        }, 300);
+          }, 800);
+        }, 200);
       }
     };
 
     animate();
   }, [onLoadComplete]);
 
-  const percentage = Math.floor(progress * 100);
-  const circumference = 930;
-  const strokeDashoffset = circumference - (progress * circumference);
+  const rotation = progress * 1080; // 3 full rotations
 
   return (
     <div
       className={`absolute inset-0 z-50 flex items-center justify-center transition-all duration-1000 rounded-lg overflow-hidden ${
-        isFadingOut ? 'opacity-0 bg-[#16a249]' : 'bg-[#0a0a0a]'
+        isFadingOut ? 'opacity-0 bg-primary' : 'bg-background'
       }`}
-      style={{
-        fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-      }}
     >
-      <div className="flex flex-col items-center gap-12">
-        <div className="relative w-[280px] h-[280px]">
-          {/* Percentage Display */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl font-bold text-[#16a249] z-10"
-            style={{
-              textShadow: '2px 2px 6px rgba(0, 0, 0, 0.9), 3px 3px 10px rgba(0, 0, 0, 0.7)'
-            }}>
-            {percentage}%
-          </div>
-
+      <div className="flex flex-col items-center gap-8">
+        <div className="relative w-[320px] h-[320px]">
           {/* Game Image */}
           <img
             src={gameImage}
             alt={gameName}
-            className="w-full h-full rounded-full object-cover absolute top-0 left-0 z-[1] bg-[#1a1a1a] border-[3px] border-[#1a1a1a]"
-            style={{ filter: 'blur(2px)' }}
+            className="w-full h-full rounded-full object-cover absolute top-0 left-0 z-[1] border-[6px] border-border shadow-2xl"
             onError={(e) => {
-              e.currentTarget.style.backgroundColor = '#1a1a1a';
+              e.currentTarget.style.backgroundColor = 'hsl(var(--muted))';
             }}
           />
 
-          {/* Loading Ring */}
-          <div className="absolute -top-3 -left-3 w-[304px] h-[304px] z-[2]">
+          {/* Rotating Lines */}
+          <div 
+            className="absolute -top-4 -left-4 w-[344px] h-[344px] z-[2]"
+            style={{ 
+              transform: `rotate(${rotation}deg)`,
+              transition: 'none'
+            }}
+          >
             <svg
-              className="w-full h-full -rotate-90 overflow-visible"
-              style={{ shapeRendering: 'geometricPrecision' }}
+              className="w-full h-full overflow-visible"
+              viewBox="0 0 344 344"
             >
-              {/* Background Circle */}
-              <circle
-                cx="152"
-                cy="152"
-                r="148"
+              {/* Right Line */}
+              <path
+                d="M 172 8 A 164 164 0 0 1 336 172"
                 fill="none"
-                stroke="#1a1a1a"
-                strokeWidth="6"
-                strokeLinecap="butt"
+                stroke="hsl(var(--primary))"
+                strokeWidth="8"
+                strokeLinecap="round"
+                className="drop-shadow-[0_0_12px_hsl(var(--primary))]"
               />
-              {/* Progress Circle */}
-              <circle
-                cx="152"
-                cy="152"
-                r="148"
+              {/* Left Line */}
+              <path
+                d="M 172 336 A 164 164 0 0 1 8 172"
                 fill="none"
-                stroke="#16a249"
-                strokeWidth="6"
-                strokeLinecap="butt"
-                strokeDasharray={circumference}
-                strokeDashoffset={strokeDashoffset}
-                style={{
-                  filter: 'drop-shadow(0 0 12px rgba(22, 162, 73, 0.8)) drop-shadow(0 0 20px rgba(22, 162, 73, 0.4)) drop-shadow(0 0 30px rgba(22, 162, 73, 0.2))',
-                  strokeLinejoin: 'miter',
-                  transition: 'stroke-dashoffset 0.1s linear'
-                }}
+                stroke="hsl(var(--primary))"
+                strokeWidth="8"
+                strokeLinecap="round"
+                className="drop-shadow-[0_0_12px_hsl(var(--primary))]"
               />
             </svg>
           </div>
         </div>
 
-        {/* Game Name */}
-        <div className="text-white text-5xl font-semibold text-center tracking-tight">
-          {gameName}
+        {/* Loading Notice */}
+        <div className="text-muted-foreground text-sm text-center flex items-center gap-2 animate-fade-in">
+          <span>Loading may take between 1-20 seconds</span>
+          <span className="text-muted-foreground/50">•</span>
+          <a href="/help" className="text-primary hover:underline">
+            Need Help?
+          </a>
         </div>
-      </div>
-
-      {/* Bottom Loading Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-2 bg-[#1a1a1a]">
-        <div 
-          className="h-full bg-[#16a249] transition-all duration-100 ease-linear"
-          style={{ 
-            width: `${percentage}%`,
-            boxShadow: '0 0 12px rgba(22, 162, 73, 0.8), 0 0 20px rgba(22, 162, 73, 0.4)'
-          }}
-        />
       </div>
     </div>
   );
