@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { MessageSquare, X, Send } from "lucide-react";
+import { MessageSquare, X, Send, Reply } from "lucide-react";
+import { EmojiPicker } from "./EmojiPicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -19,6 +20,7 @@ export const GlobalChat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [user, setUser] = useState<any>(null);
+  const [replyTo, setReplyTo] = useState<ChatMessage | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -322,18 +324,28 @@ export const GlobalChat = () => {
                   <a href="/auth" className="text-primary hover:underline">Login</a> to send messages
                 </p>
               </div>
-            ) : (
-              <div className="flex gap-2">
-                <Input
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type a message..."
-                  maxLength={500}
-                  className="flex-1"
-                />
-                <Button type="submit" size="icon">
-                  <Send className="w-4 h-4" />
-                </Button>
+              ) : (
+              <div className="space-y-2">
+                {replyTo && (
+                  <div className="flex items-center gap-2 text-xs bg-muted p-2 rounded">
+                    <Reply className="w-3 h-3" />
+                    <span>Replying to <strong>{replyTo.username}</strong></span>
+                    <button onClick={() => setReplyTo(null)} className="ml-auto">✕</button>
+                  </div>
+                )}
+                <div className="flex gap-2 items-center">
+                  <Input
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    placeholder="Type a message..."
+                    maxLength={500}
+                    className="flex-1"
+                  />
+                  <EmojiPicker onEmojiSelect={(emoji) => setNewMessage(prev => prev + emoji)} />
+                  <Button type="submit" size="icon">
+                    <Send className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             )}
           </form>

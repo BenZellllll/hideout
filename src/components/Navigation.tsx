@@ -2,11 +2,13 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Gamepad2, AppWindow, Globe, HelpCircle, Settings, User } from "lucide-react";
 import versionData from "@/data/version.json";
+import addonIcon from "@/assets/addon-icon.png";
 
 const navItems = [
   { label: "Games", href: "/games", icon: Gamepad2 },
   { label: "Apps", href: "/apps", icon: AppWindow },
   { label: "Browser", href: "/browser", icon: Globe },
+  { label: "Add-Ons", href: "/addons", icon: null, customIcon: addonIcon },
   { label: "Help", href: "/help", icon: HelpCircle },
   { label: "Settings", href: "/settings", icon: Settings },
   { label: "Account", href: "/account", icon: User },
@@ -48,7 +50,11 @@ export const Navigation = () => {
                     asChild
                   >
                     <Link to={item.href} className="relative flex items-center gap-2">
-                      <Icon className="w-4 h-4" />
+                      {item.customIcon ? (
+                        <img src={item.customIcon} alt="" className="w-4 h-4" />
+                      ) : Icon ? (
+                        <Icon className="w-4 h-4" />
+                      ) : null}
                       {item.label}
                       {activeTab === item.label.toLowerCase() && (
                         <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full blur-xl -z-10" />

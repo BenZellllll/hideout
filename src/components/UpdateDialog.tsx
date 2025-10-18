@@ -9,6 +9,12 @@ export const UpdateDialog = () => {
   const latestUpdate = updatesData.sort((a, b) => b.updateNumber - a.updateNumber)[0];
 
   useEffect(() => {
+    // Check if update popups are disabled
+    const settings = JSON.parse(localStorage.getItem('hideout_settings') || '{}');
+    if (settings.disableUpdatePopups) {
+      return;
+    }
+    
     // Check if user has seen this version's update
     const seenUpdate = localStorage.getItem(`hideout_update_${latestUpdate.version}`);
     if (!seenUpdate) {
