@@ -118,22 +118,47 @@ export default {
             opacity: "1",
           },
         },
+        "scale-in": {
+          "0%": {
+            transform: "scale(0.95)",
+            opacity: "0",
+          },
+          "100%": {
+            transform: "scale(1)",
+            opacity: "1",
+          },
+        },
+        "shimmer": {
+          "0%": {
+            backgroundPosition: "-1000px 0",
+          },
+          "100%": {
+            backgroundPosition: "1000px 0",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "fade-in": "fade-in 0.6s ease-out",
+        "fade-in": "fade-in 0.4s ease-out",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
-        "slide-in-top": "slide-in-top 0.4s ease-out",
+        "slide-in-top": "slide-in-top 0.3s ease-out",
         "slide-in-left": "slide-in-left 0.3s ease-out",
+        "scale-in": "scale-in 0.2s ease-out",
+        "shimmer": "shimmer 2s linear infinite",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-glow": "var(--gradient-glow)",
+        "gradient-card": "var(--gradient-card)",
       },
       boxShadow: {
         "glow": "var(--shadow-glow)",
         "subtle": "var(--shadow-subtle)",
+        "card": "var(--shadow-card)",
+      },
+      transitionTimingFunction: {
+        "bounce": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
       },
     },
   },
