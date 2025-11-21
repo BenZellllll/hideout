@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
-import { LogOut, Trash2, Save, Code, Puzzle } from "lucide-react";
+import { Trash2, Code, Puzzle } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "sonner";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 
 type AddonsData = {
   site: string;
@@ -41,8 +31,6 @@ export const ContextMenu = ({
 }: ContextMenuProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
-  const [user, setUser] = useState<any>(null);
   const [addonsData, setAddonsData] = useState<AddonsData | null>(null);
   const [installedAddons, setInstalledAddons] = useState<any[]>([]);
   const [executedAddons, setExecutedAddons] = useState<Record<string, boolean>>({});
@@ -52,21 +40,10 @@ export const ContextMenu = ({
   const isGamePage = location.pathname.startsWith("/games");
 
   useEffect(() => {
-    const storedUser =
-      localStorage.getItem("hideout_user") ||
-      sessionStorage.getItem("hideout_user");
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch {
-        setUser(null);
-      }
-    }
-
     // Fetch addons data and load installed addons
     const loadAddons = async () => {
       try {
-        const response = await fetch('https://hideout-network.github.io/hideout-assets/addons/addons.json');
+        const response = await fetch('https://cdn.jsdelivr.net/gh/Hideout-Network/hideout-assets/addons/addons.json');
         const data: AddonsData = await response.json();
         setAddonsData(data);
 
@@ -131,40 +108,6 @@ export const ContextMenu = ({
     }
   };
 
-  const handleSaveToAccount = async () => {
-    if (!user) {
-      toast.error("Please login to save data to your account");
-      return;
-    }
-
-    try {
-      toast.success("Account features have been removed");
-    } catch (error) {
-      console.error("Error:", error);
-      toast.error("Failed to save data");
-    }
-    onClose();
-  };
-
-  const handleLogout = () => {
-    if (!user) return;
-    setShowLogoutDialog(true);
-  };
-
-  const confirmLogout = async () => {
-    try {
-      // Clear chat username
-      localStorage.removeItem("hideout_chat_username");
-      
-      toast.success("Logged out successfully");
-      setShowLogoutDialog(false);
-      onClose();
-      navigate("/");
-    } catch (error) {
-      console.error("Logout error:", error);
-      toast.error("Logout failed");
-    }
-  };
 
   const handleInspect = () => {
     // Dispatch event to open DevTools
@@ -351,19 +294,6 @@ export const ContextMenu = ({
           )}
         </div>
 
-        <div className="my-1 border-t border-border" />
-
-        <button
-          onClick={handleSaveToAccount}
-          disabled={!user}
-          className={`w-full px-4 py-2.5 text-left text-sm flex items-center gap-3 transition-colors ${
-            user ? "hover:bg-muted/50" : "opacity-50 cursor-not-allowed"
-          }`}
-        >
-          <Save className="w-4 h-4" />
-          Save to account
-        </button>
-
         {isOnBrowser && (
           <>
             <div className="my-1 border-t border-border" />
@@ -376,39 +306,7 @@ export const ContextMenu = ({
             </button>
           </>
         )}
-
-        <div className="my-1 border-t border-border" />
-
-        <button
-          onClick={handleLogout}
-          disabled={!user}
-          className={`w-full px-4 py-2.5 text-left text-sm flex items-center gap-3 transition-colors ${
-            user
-              ? "hover:bg-destructive/10 hover:text-destructive"
-              : "opacity-50 cursor-not-allowed"
-          }`}
-        >
-          <LogOut className="w-4 h-4" />
-          Logout
-        </button>
       </div>
-
-      <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to logout? This action could be accidental.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmLogout}>
-              Logout
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 };

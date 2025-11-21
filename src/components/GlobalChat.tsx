@@ -183,14 +183,14 @@ export const GlobalChat = () => {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 rounded-full w-14 h-14 shadow-lg z-50"
+        className="fixed bottom-4 left-4 rounded-full w-14 h-14 shadow-lg z-50"
         size="icon"
       >
         <MessageSquare className="h-6 w-6" />
       </Button>
 
       {isOpen && (
-        <div className="fixed bottom-20 right-4 w-96 h-[500px] bg-background border border-border rounded-lg shadow-xl flex flex-col z-50">
+        <div className="fixed bottom-20 left-4 w-96 max-w-[calc(100vw-2rem)] h-[500px] max-h-[calc(100vh-8rem)] bg-background border border-border rounded-lg shadow-xl flex flex-col z-50">
           <div className="flex items-center justify-between p-4 border-b border-border">
             <h3 className="font-semibold">Global Chat</h3>
             <Button

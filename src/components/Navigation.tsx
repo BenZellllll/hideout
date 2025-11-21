@@ -22,26 +22,19 @@ export const Navigation = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 animate-slide-in-top">
-      <div className="w-full px-4 py-4">
-        <div className="flex items-center justify-between">
+      <div className="w-full px-2 sm:px-4 py-2 sm:py-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0">
           {/* Logo with rounded container */}
-          <Link to="/" className="bg-card/50 backdrop-blur-md rounded-2xl px-6 py-3 border border-border/50 hover:border-primary/30 transition-colors group">
-            <div className="flex flex-col">
-              <span className="text-2xl font-bold text-foreground">
+          <div className="bg-card/50 backdrop-blur-md rounded-full px-6 py-3 border border-border/50">
+            <Link to="/" className="flex items-center group">
+              <span className="text-2xl font-bold text-foreground group-hover:text-primary/80 transition-colors">
                 Hideout<span className="text-primary">.</span>
               </span>
-              <Link 
-                to="/changelog" 
-                className="text-xs text-muted-foreground hover:text-primary transition-colors"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {currentVersion}
-              </Link>
-            </div>
-          </Link>
+            </Link>
+          </div>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-1 bg-card/50 backdrop-blur-md border border-border/50 rounded-full px-2 py-1.5 shadow-subtle">
+          <div className="flex items-center gap-1 bg-card/50 backdrop-blur-md border border-border/50 rounded-full px-1 sm:px-2 py-1.5 shadow-subtle overflow-x-auto max-w-full">
             {navItems.map((item, index) => {
               const Icon = item.icon;
               return (
@@ -51,9 +44,9 @@ export const Navigation = () => {
                     size="nav"
                     asChild
                   >
-                    <Link to={item.href} className="relative flex items-center gap-2">
+                    <Link to={item.href} className="relative flex items-center gap-1 sm:gap-2 whitespace-nowrap">
                       {Icon && <Icon className="w-4 h-4" />}
-                      {item.label}
+                      <span className="hidden sm:inline">{item.label}</span>
                       {activeTab === item.label.toLowerCase() && (
                         <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-primary/10 rounded-full blur-xl -z-10" />
                       )}

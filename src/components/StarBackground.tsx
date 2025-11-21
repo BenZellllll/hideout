@@ -29,16 +29,47 @@ export const StarBackground = () => {
     resize();
     window.addEventListener('resize', resize);
 
-    // Create stars
-    const starCount = 150;
-    starsRef.current = Array.from({ length: starCount }, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      radius: Math.random() * 1.5 + 0.5,
-      opacity: Math.random() * 0.5 + 0.3
-    }));
+    // Create stars (particles) - consistent count
+    const targetStarCount = 100;
+    
+    const createStar = (fromEdge = false) => {
+      let x, y;
+      if (fromEdge) {
+        // Spawn from random edge
+        const edge = Math.floor(Math.random() * 4);
+        switch (edge) {
+          case 0: // top
+            x = Math.random() * canvas.width;
+            y = -5;
+            break;
+          case 1: // right
+            x = canvas.width + 5;
+            y = Math.random() * canvas.height;
+            break;
+          case 2: // bottom
+            x = Math.random() * canvas.width;
+            y = canvas.height + 5;
+            break;
+          default: // left
+            x = -5;
+            y = Math.random() * canvas.height;
+        }
+      } else {
+        x = Math.random() * canvas.width;
+        y = Math.random() * canvas.height;
+      }
+      
+      return {
+        x,
+        y,
+        vx: (Math.random() - 0.5) * 1.0,
+        vy: (Math.random() - 0.5) * 1.0,
+        radius: Math.random() * 3.7 + 0.3,
+        opacity: Math.random() * 0.2 + 0.8
+      };
+    };
+    
+    starsRef.current = Array.from({ length: targetStarCount }, () => createStar(false));
 
     // Mouse move handler
     const handleMouseMove = (e: MouseEvent) => {
@@ -50,30 +81,55 @@ export const StarBackground = () => {
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      starsRef.current.forEach(star => {
-        // Random drift
+      // Draw lines between nearby particles
+      starsRef.current.forEach((star, i) => {
+        for (let j = i + 1; j < starsRef.current.length; j++) {
+          const star2 = starsRef.current[j];
+          const dx = star.x - star2.x;
+          const dy = star.y - star2.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 40) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255, 255, 255, ${0.4 * (1 - distance / 40)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(star.x, star.y);
+            ctx.lineTo(star2.x, star2.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      // Draw and move particles
+      starsRef.current = starsRef.current.filter(star => {
+        // Move particle
         star.x += star.vx;
         star.y += star.vy;
 
-        // Wrap around edges
-        if (star.x < 0) star.x = canvas.width;
-        if (star.x > canvas.width) star.x = 0;
-        if (star.y < 0) star.y = canvas.height;
-        if (star.y > canvas.height) star.y = 0;
+        // Remove particles that go off screen (out_mode: 'out')
+        if (star.x < -10 || star.x > canvas.width + 10 || 
+            star.y < -10 || star.y > canvas.height + 10) {
+          return false;
+        }
 
-        // Draw star
+        // Draw particle
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
         ctx.fill();
-
-        // Add subtle glow
-        const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * 3);
-        gradient.addColorStop(0, `rgba(142, 191, 92, ${star.opacity * 0.3})`);
-        gradient.addColorStop(1, 'rgba(142, 191, 92, 0)');
-        ctx.fillStyle = gradient;
-        ctx.fill();
+        
+        return true;
       });
+      
+      // Maintain consistent particle count by spawning from edges
+      const deficit = targetStarCount - starsRef.current.length;
+      if (deficit > 0) {
+        // Spawn particles to maintain target count
+        const spawnProbability = Math.min(deficit * 0.02, 0.3); // Dynamic spawn rate
+        if (Math.random() < spawnProbability) {
+          starsRef.current.push(createStar(true));
+        }
+      }
 
       animationRef.current = requestAnimationFrame(animate);
     };
