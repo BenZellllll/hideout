@@ -166,7 +166,7 @@ export const BrowserHelp = () => {
 
         <div className="text-center text-muted-foreground text-sm pt-4 pb-8">
           <Separator className="mb-4" />
-          <p>Need more help? Contact support at <a href="mailto:hideout-network-buisness@hotmail.com" className="text-primary hover:underline">hideout-network-buisness@hotmail.com</a></p>
+          <p>Need more help? <a href="https://github.com/Hideout-Network/hideout/issues/new" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Report an issue on GitHub</a></p>
         </div>
       </div>
     </div>
