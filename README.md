@@ -13,6 +13,12 @@ Visit `http://localhost:8080`
 
 ## Deploy
 
+### Install
+```bash
+npm install
+```
+
+### Build
 ```bash
 npm run build
 ```
