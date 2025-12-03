@@ -2,6 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Animated glowing border line that travels around search bar */
+@keyframes border-travel {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.search-border-glow {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    transparent 40%, 
+    hsl(var(--primary)) 50%, 
+    transparent 60%, 
+    transparent 100%
+  );
+  background-size: 300% 300%;
+  animation: border-travel 3s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  padding: 2px;
+  border-radius: 1rem;
+}
+
+.search-border-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    transparent 35%, 
+    hsl(var(--primary) / 0.6) 50%, 
+    transparent 65%, 
+    transparent 100%
+  );
+  background-size: 300% 300%;
+  animation: border-travel 3s linear infinite;
+  filter: blur(8px);
+  z-index: -1;
+}
+
+/* Fullscreen iframe styles */
+iframe:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain;
+}
+
+iframe:-webkit-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain;
+}
+
+iframe:-moz-full-screen {
+  width: 100vw !important;
+  height: 100vh !important;
+  object-fit: contain;
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
