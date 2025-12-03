@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Input } from "@/components/ui/input";
@@ -195,16 +195,22 @@ const Games = () => {
 
   useEffect(() => {
     if (gameParam && games.length > 0) {
-      const foundGame = games.find(
-        (g) => g.name.toLowerCase().replace(/\s+/g, '-') === gameParam
-      );
+      const sourceParam = searchParams.get("source");
+      // Find game matching both name and source (if source provided)
+      const foundGame = games.find((g) => {
+        const nameMatch = g.name.toLowerCase().replace(/\s+/g, '-') === gameParam;
+        if (sourceParam) {
+          return nameMatch && g.source === sourceParam;
+        }
+        return nameMatch;
+      });
       setCurrentGame(foundGame || null);
       setShowGameLoader(true);
     } else if (!gameParam) {
       setCurrentGame(null);
       setShowGameLoader(false);
     }
-  }, [gameParam, games]);
+  }, [gameParam, searchParams, games]);
 
   useEffect(() => {
     const loadFavorites = async () => {
@@ -274,9 +280,13 @@ const Games = () => {
     checkFavorite();
   }, [currentGame]);
 
-  const handleGameClick = (gameName: string) => {
+  const handleGameClick = (gameName: string, gameSource?: 'zones' | 'hideout' | 'list3') => {
     const gameSlug = gameName.toLowerCase().replace(/\s+/g, '-');
-    setSearchParams({ game: gameSlug });
+    const params: { game: string; source?: string } = { game: gameSlug };
+    if (gameSource) {
+      params.source = gameSource;
+    }
+    setSearchParams(params);
   };
 
   const handleFullscreen = () => {
@@ -409,7 +419,7 @@ const Games = () => {
   const handleMysteryGame = () => {
     if (filteredGames.length === 0) return;
     const randomGame = filteredGames[Math.floor(Math.random() * filteredGames.length)];
-    handleGameClick(randomGame.name);
+    handleGameClick(randomGame.name, randomGame.source);
   };
 
   // Load game content when a game is selected
@@ -454,27 +464,34 @@ const Games = () => {
   }, [currentGame, toast]);
 
   // Get random games for side panels (excluding current game)
-  const getRandomGamesForSidebar = useCallback((count: number) => {
-    const availableGames = games.filter(g => g.name !== currentGame?.name);
+  // Memoize to prevent regeneration on every render (only when sidebarGamesKey changes)
+  const sidebarGames = useMemo(() => {
+    if (!currentGame) return { left: [], right: [] };
+    
+    const availableGames = games.filter(g => g.name !== currentGame.name);
     const shuffled = [...availableGames].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, count);
-  }, [games, currentGame?.name, sidebarGamesKey]);
+    
+    return {
+      left: shuffled.slice(0, 8),
+      right: shuffled.slice(8, 16)
+    };
+  }, [games, currentGame, sidebarGamesKey]);
 
-  // Refresh sidebar games every 30 seconds
+  // Refresh sidebar games every 60 seconds
   useEffect(() => {
     if (!currentGame) return;
     
     const interval = setInterval(() => {
       setSidebarGamesKey(prev => prev + 1);
-    }, 30000);
+    }, 60000);
     
     return () => clearInterval(interval);
   }, [currentGame]);
 
   // If a game is selected, show the game player
   if (currentGame) {
-    const leftPanelGames = getRandomGamesForSidebar(8);
-    const rightPanelGames = getRandomGamesForSidebar(8);
+    const leftPanelGames = sidebarGames.left;
+    const rightPanelGames = sidebarGames.right;
 
     return (
       <div className="min-h-screen bg-background">
@@ -488,7 +505,7 @@ const Games = () => {
                 {leftPanelGames.map((game, index) => (
                   <button
                     key={`left-${game.id}-${index}-${sidebarGamesKey}`}
-                    onClick={() => handleGameClick(game.name)}
+                    onClick={() => handleGameClick(game.name, game.source)}
                     className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border border-border/50 hover:border-primary/50 transition-all hover:scale-105"
                   >
                     <img
@@ -525,11 +542,15 @@ const Games = () => {
                   />
                 )}
                 <iframe
-                  key={currentGame.name + '-' + currentGame.source}
+                  key={currentGame.name + '-' + currentGame.source + '-' + sidebarGamesKey}
                   id="game-iframe"
                   className="w-full h-full"
                   title={currentGame.name}
                   allowFullScreen
+                  style={{
+                    width: '100%',
+                    height: '100%'
+                  }}
                 />
               </div>
 
@@ -563,7 +584,7 @@ const Games = () => {
                 {rightPanelGames.map((game, index) => (
                   <button
                     key={`right-${game.id}-${index}-${sidebarGamesKey}`}
-                    onClick={() => handleGameClick(game.name)}
+                    onClick={() => handleGameClick(game.name, game.source)}
                     className="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden border border-border/50 hover:border-primary/50 transition-all hover:scale-105"
                   >
                     <img
@@ -692,7 +713,7 @@ const Games = () => {
                   animationDelay: `${index * 20}ms`,
                   transition: 'border-color 0.2s ease'
                 }}
-                onClick={() => handleGameClick(game.name)}
+                onClick={() => handleGameClick(game.name, game.source)}
               >
                 <div className="w-full h-full relative overflow-hidden bg-gradient-to-br from-muted/50 to-muted">
                   <img 

@@ -3,7 +3,7 @@ import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send, ChevronDown, Plus, Key, ExternalLink, Image, FileText, Code, X } from "lucide-react";
+import { Send, ChevronDown, Plus, Key, ExternalLink, Image, FileText, Code, X, Brain } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +19,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { toast } from "sonner";
 import openaiLogo from "@/images/openailogo.svg";
@@ -62,6 +63,8 @@ const WELCOME_MESSAGES = [
 ];
 
 const MODELS: Model[] = [
+  // Auto - Automatically selects best model
+  { id: "auto", name: "Auto", logo: openaiLogo, supportsVision: true },
   // GPT OSS Models
   { id: "openai/gpt-oss-120b", name: "GPT OSS 120B", logo: openaiLogo },
   { id: "openai/gpt-oss-20b", name: "GPT OSS 20B", logo: openaiLogo },
@@ -74,6 +77,20 @@ const MODELS: Model[] = [
   // Qwen
   { id: "qwen/qwen3-32b", name: "Qwen 3 32B", logo: qwenLogo },
 ];
+
+// Auto model selection logic
+const selectAutoModel = (hasImage: boolean, messageLength: number): Model => {
+  // If image is attached, use a vision model
+  if (hasImage) {
+    return MODELS.find(m => m.id === "meta-llama/llama-4-scout-17b-16e-instruct")!;
+  }
+  // For long/complex prompts (>500 chars), use the best model
+  if (messageLength > 500) {
+    return MODELS.find(m => m.id === "openai/gpt-oss-120b")!;
+  }
+  // Default to a good balanced model
+  return MODELS.find(m => m.id === "openai/gpt-oss-20b")!;
+};
 
 // Parse <think> tags from content
 const parseThinkTags = (content: string): { thoughts: string | null; response: string } => {
@@ -356,6 +373,8 @@ const AI = () => {
   const [newKeyValue, setNewKeyValue] = useState("");
   const [pendingImage, setPendingImage] = useState<string | null>(null);
   const [markdownEnabled, setMarkdownEnabled] = useState<Record<number, boolean>>({});
+  const [showMemoryDialog, setShowMemoryDialog] = useState(false);
+  const [memory, setMemory] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -363,6 +382,20 @@ const AI = () => {
   const [welcomeMessage] = useState(() => 
     WELCOME_MESSAGES[Math.floor(Math.random() * WELCOME_MESSAGES.length)]
   );
+
+  // Load memory from localStorage
+  useEffect(() => {
+    const savedMemory = localStorage.getItem("ai_memory");
+    if (savedMemory) {
+      setMemory(savedMemory);
+    }
+  }, []);
+
+  const handleSaveMemory = () => {
+    localStorage.setItem("ai_memory", memory);
+    setShowMemoryDialog(false);
+    toast.success("Memory saved");
+  };
 
   // Load API keys from localStorage and check for env variable
   useEffect(() => {
@@ -511,8 +544,14 @@ const AI = () => {
   const sendMessage = async () => {
     if (!input.trim() && !pendingImage) return;
     
+    // Determine which model to actually use
+    let modelToUse = selectedModel;
+    if (selectedModel.id === "auto") {
+      modelToUse = selectAutoModel(!!pendingImage, input.length);
+    }
+    
     // Check if trying to send image with non-vision model
-    if (pendingImage && !selectedModel.supportsVision) {
+    if (pendingImage && !modelToUse.supportsVision) {
       toast.error("This model doesn't support images. Please use a vision model like Llama 4 Scout or Llama 4 Maverick.");
       return;
     }
@@ -552,7 +591,7 @@ const AI = () => {
       const apiMessages = messages
         .filter(m => m.role !== "system") // Filter out system messages like "Switched to..."
         .map(m => {
-          if (m.image && selectedModel.supportsVision) {
+          if (m.image && modelToUse.supportsVision) {
             // Vision model: include image in array format
             return {
               role: m.role,
@@ -567,7 +606,7 @@ const AI = () => {
         });
 
       // Add current message
-      if (imageToSend && selectedModel.supportsVision) {
+      if (imageToSend && modelToUse.supportsVision) {
         apiMessages.push({
           role: "user",
           content: [
@@ -579,6 +618,12 @@ const AI = () => {
         apiMessages.push({ role: "user", content: userMessage });
       }
 
+      // Build system message with memory if available
+      const systemMessages: any[] = [];
+      if (memory.trim()) {
+        systemMessages.push({ role: "system", content: memory.trim() });
+      }
+
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -586,8 +631,8 @@ const AI = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: selectedModel.id,
-          messages: apiMessages,
+          model: modelToUse.id,
+          messages: [...systemMessages, ...apiMessages],
           max_tokens: 4096,
           temperature: 0.7,
         }),
@@ -848,6 +893,17 @@ const AI = () => {
             </div>
 
             <div className="flex items-center gap-2">
+              {/* Memory Button */}
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+                onClick={() => setShowMemoryDialog(true)}
+              >
+                <Brain className="w-4 h-4" />
+                Memory
+              </Button>
+
               {/* Model Selector */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -930,6 +986,29 @@ const AI = () => {
             </div>
             <Button onClick={handleAddApiKey} className="w-full">
               Add API Key
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Memory Dialog */}
+      <Dialog open={showMemoryDialog} onOpenChange={setShowMemoryDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Memory</DialogTitle>
+            <DialogDescription>
+              Add custom instructions that the AI will remember for all conversations.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-4">
+            <Textarea
+              value={memory}
+              onChange={(e) => setMemory(e.target.value)}
+              placeholder="e.g., Always give me answers only, no explanation"
+              className="min-h-[200px] resize-none"
+            />
+            <Button onClick={handleSaveMemory} className="w-full">
+              Save
             </Button>
           </div>
         </DialogContent>

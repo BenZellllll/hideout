@@ -53,16 +53,21 @@ const Index = () => {
 
           {/* Search Bar with Button Inside */}
           <form onSubmit={handleSearch} className="relative w-full">
-            <Search className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground z-10" />
-            <Input 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="search anything" 
-              className="w-full h-12 sm:h-16 pl-12 sm:pl-16 pr-24 sm:pr-32 text-base sm:text-lg bg-card border-border transition-colors rounded-2xl"
-            />
+            <Search className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 text-muted-foreground z-20" />
+            <div className="relative">
+              {/* Animated glowing border line that travels around */}
+              <div className="search-border-glow absolute -inset-[2px] rounded-2xl" />
+              
+              <Input 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="search anything" 
+                className="relative w-full h-12 sm:h-16 pl-12 sm:pl-16 pr-24 sm:pr-32 text-base sm:text-lg bg-card border-transparent transition-colors rounded-2xl z-10"
+              />
+            </div>
             <button 
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-8 sm:h-12 px-4 sm:px-6 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition-colors text-sm sm:text-base"
+              className="absolute right-2 top-1/2 -translate-y-1/2 h-8 sm:h-12 px-4 sm:px-6 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/90 transition-colors text-sm sm:text-base z-20"
             >
               Search
             </button>
@@ -90,13 +95,6 @@ const Index = () => {
             className="hover:text-primary transition-colors"
           >
             Credits
-          </Link>
-          <span>•</span>
-          <Link 
-            to="/help" 
-            className="hover:text-primary transition-colors"
-          >
-            Help
           </Link>
         </p>
       </footer>
