@@ -1,7 +1,7 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GlobalChat } from "./GlobalChat";
 import { Button } from "@/components/ui/button";
-import { Menu, Bug, Plus } from "lucide-react";
+import { Menu, Bug, Plus, HelpCircle } from "lucide-react";
 import { SiGithub, SiDiscord } from "react-icons/si";
 import {
   DropdownMenu,
@@ -13,6 +13,7 @@ import informationData from "@/jsons/information.json";
 
 export const GlobalElements = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   
   // Hide on browser page
   if (location.pathname === "/browser") {
@@ -40,6 +41,10 @@ export const GlobalElements = () => {
             <DropdownMenuItem onClick={() => window.open("https://github.com/Hideout-Network/hideout/issues/new", "_blank")} className="gap-2 cursor-pointer">
               <Plus className="w-4 h-4" />
               Request
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/help")} className="gap-2 cursor-pointer">
+              <HelpCircle className="w-4 h-4" />
+              Help
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => window.open(informationData.github, "_blank")} className="gap-2 cursor-pointer">
               <SiGithub className="w-4 h-4" />

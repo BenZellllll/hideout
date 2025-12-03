@@ -28,6 +28,7 @@ const DEFAULT_SHORTCUTS: Shortcut[] = [
 ];
 
 const STORAGE_KEY = "hideout_shortcuts";
+const DELETED_STORAGE_KEY = "hideout_deleted_shortcuts";
 
 export const HomeShortcuts = () => {
   const navigate = useNavigate();
@@ -37,12 +38,17 @@ export const HomeShortcuts = () => {
 
   useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
+    const deletedIds = JSON.parse(localStorage.getItem(DELETED_STORAGE_KEY) || '[]');
+    
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         // Check if new default shortcuts need to be added (for existing users)
+        // but exclude any that have been explicitly deleted
         const existingIds = parsed.map((s: Shortcut) => s.id);
-        const missingDefaults = DEFAULT_SHORTCUTS.filter(d => !existingIds.includes(d.id));
+        const missingDefaults = DEFAULT_SHORTCUTS.filter(d => 
+          !existingIds.includes(d.id) && !deletedIds.includes(d.id)
+        );
         if (missingDefaults.length > 0) {
           const updated = [...parsed, ...missingDefaults];
           setShortcuts(updated);
@@ -51,12 +57,14 @@ export const HomeShortcuts = () => {
           setShortcuts(parsed);
         }
       } catch {
-        setShortcuts(DEFAULT_SHORTCUTS);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_SHORTCUTS));
+        const filteredDefaults = DEFAULT_SHORTCUTS.filter(d => !deletedIds.includes(d.id));
+        setShortcuts(filteredDefaults);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredDefaults));
       }
     } else {
-      setShortcuts(DEFAULT_SHORTCUTS);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_SHORTCUTS));
+      const filteredDefaults = DEFAULT_SHORTCUTS.filter(d => !deletedIds.includes(d.id));
+      setShortcuts(filteredDefaults);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredDefaults));
     }
   }, []);
 
@@ -90,6 +98,12 @@ export const HomeShortcuts = () => {
   };
 
   const handleRemoveShortcut = (id: string) => {
+    // Track deleted shortcuts so they don't get re-added
+    const deletedIds = JSON.parse(localStorage.getItem(DELETED_STORAGE_KEY) || '[]');
+    if (DEFAULT_SHORTCUTS.some(s => s.id === id) && !deletedIds.includes(id)) {
+      deletedIds.push(id);
+      localStorage.setItem(DELETED_STORAGE_KEY, JSON.stringify(deletedIds));
+    }
     saveShortcuts(shortcuts.filter((s) => s.id !== id));
   };
 
