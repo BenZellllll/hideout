@@ -11,7 +11,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { GameLoader } from "@/components/GameLoader";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Banner728x90, Banner160x600, shouldShowAds } from "@/components/AdManager";
+import { Banner728x90, shouldShowAds } from "@/components/AdManager";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -318,31 +318,9 @@ const Games = () => {
       gridSpan: searchQuery ? 'col-span-2 row-span-2' : game.gridSpan
     }));
 
-  // Games to display (paginated) with inline ads
+  // Games to display (paginated)
   const displayedGames = filteredGames.slice(0, displayedCount);
   const hasMoreGames = displayedCount < filteredGames.length;
-
-  // Insert ads into the games list at intervals
-  const gamesWithAds = useMemo(() => {
-    if (!shouldShowAds()) return displayedGames.map(game => ({ type: 'game' as const, game }));
-    
-    const result: Array<{ type: 'game'; game: typeof displayedGames[0] } | { type: 'ad'; adType: '728x90' | '160x600'; key: string }> = [];
-    let adCounter = 0;
-    
-    displayedGames.forEach((game, index) => {
-      result.push({ type: 'game', game });
-      
-      // Insert ad every 15-20 games (randomized)
-      if ((index + 1) % 18 === 0 && index < displayedGames.length - 1) {
-        // Alternate between ad types
-        const adType = adCounter % 2 === 0 ? '728x90' : '160x600';
-        result.push({ type: 'ad', adType, key: `ad-${index}-${adType}` });
-        adCounter++;
-      }
-    });
-    
-    return result;
-  }, [displayedGames]);
 
   // Reset displayed count when search or filter changes
   useEffect(() => {
@@ -728,22 +706,7 @@ const Games = () => {
 
         {/* Games Grid - Masonry Style */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 gap-2 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
-        {gamesWithAds.map((item, index) => {
-            if (item.type === 'ad') {
-              // Render inline ad
-              return (
-                <div
-                  key={item.key}
-                  className={`flex items-center justify-center bg-card/50 rounded-lg border border-border/50 ${
-                    item.adType === '728x90' ? 'col-span-full row-span-1 min-h-[90px]' : 'col-span-2 row-span-4 min-h-[600px]'
-                  }`}
-                >
-                  {item.adType === '728x90' ? <Banner728x90 /> : <Banner160x600 />}
-                </div>
-              );
-            }
-            
-            const game = item.game;
+        {displayedGames.map((game, index) => {
             const isFav = favorites.includes(getGameId(game.name, game.source));
             
             return (
