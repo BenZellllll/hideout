@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { usePageTitle } from '@/hooks/use-page-title';
 import { toast } from 'sonner';
 import { GridBackground } from '@/components/GridBackground';
+import { StickyBottomBanner, shouldShowAds } from '@/components/AdManager';
 
 type Addon = {
   id: string;
@@ -222,7 +223,7 @@ const Addons = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 pb-32 relative z-10">
         {/* Installed Add-ons Section */}
         {installedItems.length > 0 && (
           <section className="mb-12 animate-fade-in">
@@ -330,6 +331,9 @@ const Addons = () => {
           )}
         </section>
       </main>
+
+      {/* Sticky Bottom Ad Banner */}
+      {shouldShowAds() && <StickyBottomBanner />}
     </div>
   );
 };
