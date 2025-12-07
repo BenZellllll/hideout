@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { GlobalChat } from "./GlobalChat";
-import { SocialBar } from "./AdManager";
 import { Button } from "@/components/ui/button";
 import { Menu, Bug, Plus, HelpCircle } from "lucide-react";
 import { SiGithub, SiDiscord } from "react-icons/si";
@@ -23,9 +22,6 @@ export const GlobalElements = () => {
 
   return (
     <>
-      {/* Social Bar - Shows on all pages */}
-      <SocialBar />
-
       {/* Global Chat Button - Bottom Left */}
       <GlobalChat />
 

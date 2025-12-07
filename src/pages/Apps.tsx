@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { GridBackground } from "@/components/GridBackground";
 import { Button } from "@/components/ui/button";
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
+import { Banner728x90, shouldShowAds } from "@/components/AdManager";
 import appsData from "@/jsons/apps.json";
 
 type App = {
@@ -240,8 +240,12 @@ const Apps = () => {
           })}
         </div>
 
-        {/* Sticky Bottom Ad Banner */}
-        {shouldShowAds() && <StickyBottomBanner />}
+        {/* Bottom Ad Banner */}
+        {shouldShowAds() && (
+          <div className="w-full flex justify-center mt-8">
+            <Banner728x90 />
+          </div>
+        )}
 
         {/* No results */}
         {filteredApps.length === 0 && (

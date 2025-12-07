@@ -11,7 +11,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { GameLoader } from "@/components/GameLoader";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
+import { Banner728x90, shouldShowAds } from "@/components/AdManager";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -322,9 +322,29 @@ const Games = () => {
   const displayedGames = filteredGames.slice(0, displayedCount);
   const hasMoreGames = displayedCount < filteredGames.length;
 
-  // Just map games without inline ads
+  // Insert a 728x90 banner ad every 10 rows of 1x1 games (~100 grid units)
   const gamesWithAds = useMemo(() => {
-    return displayedGames.map(game => ({ type: 'game' as const, game }));
+    if (!shouldShowAds()) return displayedGames.map(game => ({ type: 'game' as const, game }));
+    
+    const result: Array<{ type: 'game'; game: typeof displayedGames[0] } | { type: 'ad'; adType: '728x90'; key: string }> = [];
+    let rowCounter = 0;
+    
+    displayedGames.forEach((game, index) => {
+      result.push({ type: 'game', game });
+      
+      // Count rows based on grid span (1x1 = 1 unit, 2x2 = 4 units, 3x3 = 9 units)
+      // Approximate 10 games per row for 1x1 tiles
+      const gridUnits = game.gridSpan?.includes('3x3') ? 9 : game.gridSpan?.includes('2x2') ? 4 : 1;
+      rowCounter += gridUnits;
+      
+      // Insert ad every ~100 grid units (10 rows × 10 columns)
+      if (rowCounter >= 100 && index < displayedGames.length - 1) {
+        result.push({ type: 'ad', adType: '728x90', key: `ad-row-${index}` });
+        rowCounter = 0;
+      }
+    });
+    
+    return result;
   }, [displayedGames]);
 
   // Reset displayed count when search or filter changes
@@ -579,6 +599,12 @@ const Games = () => {
                 </Button>
               </div>
 
+              {/* Ad Banner Below Controls */}
+              {shouldShowAds() && (
+                <div className="w-full flex justify-center">
+                  <Banner728x90 />
+                </div>
+              )}
             </div>
 
             {/* Right Side Panel - Game Recommendations */}
@@ -706,6 +732,18 @@ const Games = () => {
         {/* Games Grid - Masonry Style */}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 lg:grid-cols-9 xl:grid-cols-12 gap-2 auto-rows-fr" style={{ gridAutoFlow: 'dense' }}>
         {gamesWithAds.map((item, index) => {
+            if (item.type === 'ad') {
+              // Render inline 728x90 banner ad centered
+              return (
+                <div
+                  key={item.key}
+                  className="col-span-full row-span-1 flex items-center justify-center py-4"
+                >
+                  <Banner728x90 />
+                </div>
+              );
+            }
+            
             const game = item.game;
             const isFav = favorites.includes(getGameId(game.name, game.source));
             
@@ -756,8 +794,12 @@ const Games = () => {
           })}
          </div>
 
-        {/* Sticky Bottom Ad Banner */}
-        {shouldShowAds() && <StickyBottomBanner />}
+        {/* Bottom Ad Banner */}
+        {shouldShowAds() && (
+          <div className="w-full flex justify-center mt-8">
+            <Banner728x90 />
+          </div>
+        )}
 
         {/* No results */}
         {!isLoading && filteredGames.length === 0 && (

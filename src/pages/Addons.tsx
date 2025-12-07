@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { usePageTitle } from '@/hooks/use-page-title';
 import { toast } from 'sonner';
 import { GridBackground } from '@/components/GridBackground';
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
 
 type Addon = {
   id: string;
@@ -330,9 +329,6 @@ const Addons = () => {
             </div>
           )}
         </section>
-
-        {/* Sticky Bottom Ad Banner */}
-        {shouldShowAds() && <StickyBottomBanner />}
       </main>
     </div>
   );
