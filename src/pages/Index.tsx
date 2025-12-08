@@ -7,7 +7,7 @@ import { HomeShortcuts } from "@/components/HomeShortcuts";
 import { usePageTitle } from "@/hooks/use-page-title";
 import updatesData from "@/jsons/updates.json";
 import { ChevronDown } from "lucide-react";
-import { Banner728x90, Banner160x600, shouldShowAds } from "@/components/AdManager";
+import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -115,13 +115,6 @@ const Index = () => {
 
       {/* Main Content - Centered with Side Ads */}
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6">
-        {/* Left Side Ad - Hidden on smaller screens */}
-        {shouldShowAds() && (
-          <div className="hidden xl:flex items-center justify-center mr-4">
-            <Banner160x600 />
-          </div>
-        )}
-        
         <main className="relative text-center space-y-6 sm:space-y-8 animate-fade-in w-full max-w-3xl">
           {/* Big Hideout Text */}
           <div className="relative">
@@ -183,21 +176,10 @@ const Index = () => {
           {/* Shortcuts */}
           <HomeShortcuts />
         </main>
-        
-        {/* Right Side Ad - Hidden on smaller screens */}
-        {shouldShowAds() && (
-          <div className="hidden xl:flex items-center justify-center ml-4">
-            <Banner160x600 />
-          </div>
-        )}
       </div>
 
-      {/* Ad Banner */}
-      {shouldShowAds() && (
-        <div className="w-full flex justify-center py-2">
-          <Banner728x90 />
-        </div>
-      )}
+      {/* Sticky Bottom Ad */}
+      {shouldShowAds() && <StickyBottomBanner />}
 
       {/* Footer - Center */}
       <footer className="py-4 text-center">
