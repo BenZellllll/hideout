@@ -31,8 +31,20 @@ const AD_CONFIGS: Record<string, AdConfig> = {
 
 const getAdConfig = (): AdConfig | null => {
   const hostname = window.location.hostname;
-  return AD_CONFIGS[hostname] || null;
+  
+  // Check for exact match first
+  if (AD_CONFIGS[hostname]) {
+    return AD_CONFIGS[hostname];
+  }
+  
+  // Check for lovable preview/project domains - use hideout-now config for testing
+  if (hostname.includes('lovable.app') || hostname.includes('lovableproject.com')) {
+    return AD_CONFIGS['hideout-now.lovable.app'];
+  }
+  
+  return null;
 };
+
 
 // Native Banner Ad Component
 export const NativeBanner = ({ className = '' }: { className?: string }) => {
