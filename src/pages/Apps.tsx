@@ -9,7 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { GridBackground } from "@/components/GridBackground";
 import { Button } from "@/components/ui/button";
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
+
 import appsData from "@/jsons/apps.json";
 
 type App = {
@@ -239,9 +239,6 @@ const Apps = () => {
             );
           })}
         </div>
-
-        {/* Sticky Bottom Ad Banner */}
-        {shouldShowAds() && <StickyBottomBanner />}
 
         {/* No results */}
         {filteredApps.length === 0 && (

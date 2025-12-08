@@ -29,7 +29,7 @@ import moonshotLogo from "@/images/moonshotlogo.webp";
 
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
+
 
 interface Message {
   role: "user" | "assistant" | "system";
@@ -949,9 +949,6 @@ const AI = () => {
               </Button>
             </div>
           </div>
-          
-          {/* Sticky Bottom Ad Banner */}
-          {shouldShowAds() && <StickyBottomBanner />}
         </div>
       </div>
 

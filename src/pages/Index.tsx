@@ -7,7 +7,7 @@ import { HomeShortcuts } from "@/components/HomeShortcuts";
 import { usePageTitle } from "@/hooks/use-page-title";
 import updatesData from "@/jsons/updates.json";
 import { ChevronDown } from "lucide-react";
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -177,9 +177,6 @@ const Index = () => {
           <HomeShortcuts />
         </main>
       </div>
-
-      {/* Sticky Bottom Ad */}
-      {shouldShowAds() && <StickyBottomBanner />}
 
       {/* Footer - Center */}
       <footer className="py-4 text-center">

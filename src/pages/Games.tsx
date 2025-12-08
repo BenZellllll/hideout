@@ -11,7 +11,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { GameLoader } from "@/components/GameLoader";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { StickyBottomBanner, shouldShowAds } from "@/components/AdManager";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -597,7 +597,6 @@ const Games = () => {
             </div>
           </div>
         </main>
-        {shouldShowAds() && <StickyBottomBanner />}
       </div>
     );
   }
@@ -751,9 +750,6 @@ const Games = () => {
             );
           })}
         </div>
-
-        {/* Sticky Bottom Ad Banner */}
-        {shouldShowAds() && <StickyBottomBanner />}
 
         {/* No results */}
         {!isLoading && filteredGames.length === 0 && (
