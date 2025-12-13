@@ -1,12 +1,12 @@
 import { Navigation } from "@/components/Navigation";
 import { Input } from "@/components/ui/input";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useRef } from "react";
 import { GridBackground } from "@/components/GridBackground";
 import { HomeShortcuts } from "@/components/HomeShortcuts";
 import { usePageTitle } from "@/hooks/use-page-title";
-import updatesData from "@/jsons/updates.json";
 import { ChevronDown } from "lucide-react";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 
 import {
   DropdownMenu,
@@ -35,8 +35,14 @@ const SEARCH_ENGINES: { id: SearchEngine; name: string; icon: React.ReactNode; s
     id: "duckduckgo", 
     name: "DuckDuckGo",
     icon: (
-      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="#DE5833">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-2-9.5c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm4 0c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1z"/>
+      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6">
+        <circle cx="12" cy="12" r="10" fill="#DE5833"/>
+        <ellipse cx="9.5" cy="10" rx="2" ry="2.5" fill="white"/>
+        <ellipse cx="14.5" cy="10" rx="2" ry="2.5" fill="white"/>
+        <circle cx="9.5" cy="10.5" r="1" fill="#2D4F8E"/>
+        <circle cx="14.5" cy="10.5" r="1" fill="#2D4F8E"/>
+        <ellipse cx="12" cy="15" rx="3" ry="2" fill="#65BC46"/>
+        <path d="M9 14.5c1.5 2 4.5 2 6 0" stroke="#65BC46" strokeWidth="1.5" fill="none"/>
       </svg>
     ),
     searchUrl: "https://duckduckgo.com/?q="
@@ -56,8 +62,9 @@ const SEARCH_ENGINES: { id: SearchEngine; name: string; icon: React.ReactNode; s
     id: "yahoo", 
     name: "Yahoo",
     icon: (
-      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="#6001D2">
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM8.5 7l3.5 5 3.5-5h2l-4.5 6.5V17h-2v-3.5L6.5 7h2z"/>
+      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6">
+        <circle cx="12" cy="12" r="11" fill="#6001D2"/>
+        <text x="12" y="16" textAnchor="middle" fill="white" fontSize="12" fontWeight="bold" fontFamily="Arial">Y!</text>
       </svg>
     ),
     searchUrl: "https://search.yahoo.com/search?p="
@@ -66,8 +73,9 @@ const SEARCH_ENGINES: { id: SearchEngine; name: string; icon: React.ReactNode; s
     id: "yandex", 
     name: "Yandex",
     icon: (
-      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="#FF0000">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.5 15h-2v-5.5L8 7h2.25l2.25 3.5L14.75 7H17l-3.5 4.5V17z"/>
+      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6">
+        <circle cx="12" cy="12" r="11" fill="#FF0000"/>
+        <text x="12" y="17" textAnchor="middle" fill="white" fontSize="14" fontWeight="bold" fontFamily="Arial">Y</text>
       </svg>
     ),
     searchUrl: "https://yandex.com/search/?text="
@@ -76,8 +84,10 @@ const SEARCH_ENGINES: { id: SearchEngine; name: string; icon: React.ReactNode; s
     id: "brave", 
     name: "Brave",
     icon: (
-      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6" fill="#FB542B">
-        <path d="M12 2L3 7v7c0 5 4 9 9 9s9-4 9-9V7l-9-5zm0 2.18l7 3.89v6.93c0 3.87-3.13 7-7 7s-7-3.13-7-7V8.07l7-3.89z"/>
+      <svg viewBox="0 0 24 24" className="w-5 h-5 sm:w-6 sm:h-6">
+        <path fill="#FB542B" d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z"/>
+        <path fill="#FFF" d="M12 4.5L6 7.5v5c0 4.14 2.88 8.02 6 9 3.12-.98 6-4.86 6-9v-5l-6-3z"/>
+        <path fill="#FB542B" d="M12 6L8 8v4c0 2.76 1.92 5.35 4 6 2.08-.65 4-3.24 4-6V8l-4-2z"/>
       </svg>
     ),
     searchUrl: "https://search.brave.com/search?q="
@@ -89,13 +99,21 @@ const Index = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchEngine, setSearchEngine] = useState<SearchEngine>("google");
-  
-  // Get latest version from updates
-  const latestUpdate = updatesData[0];
-  const currentVersion = latestUpdate?.version || "V2 Prebeta";
+  const [isHovering, setIsHovering] = useState(false);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const searchContainerRef = useRef<HTMLDivElement>(null);
   
   const currentEngine = SEARCH_ENGINES.find(e => e.id === searchEngine) || SEARCH_ENGINES[0];
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (searchContainerRef.current) {
+      const rect = searchContainerRef.current.getBoundingClientRect();
+      setMousePos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top
+      });
+    }
+  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,16 +140,18 @@ const Index = () => {
               <span className="text-foreground">Hideout</span>
               <span className="text-primary">.</span>
             </h1>
-            <Link 
-              to="/changelog" 
-              className="text-lg text-muted-foreground mt-2 hover:text-primary transition-colors inline-block cursor-pointer"
-            >
-              {currentVersion}
-            </Link>
           </div>
 
           {/* Search Bar with Button Inside */}
-          <form onSubmit={handleSearch} className="relative w-full">
+          <div 
+            ref={searchContainerRef}
+            className="relative search-container"
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
+            <form onSubmit={handleSearch} className="relative w-full">
+            
             {/* Search Engine Dropdown on the left */}
             <div className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 z-20">
               <DropdownMenu>
@@ -153,16 +173,25 @@ const Index = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="relative">
-              {/* Animated glowing border line that travels around */}
-              <div className="search-border-glow-outer" />
-              <div className="search-border-glow" />
+            {/* Animated border line that travels around - outside wrapper to avoid blur */}
+            <AnimatedBorder />
+            
+            <div className="relative search-input-wrapper">
+              {/* Cursor-following glow effect - inside input wrapper */}
+              <div 
+                className="search-cursor-glow"
+                style={{
+                  left: mousePos.x,
+                  top: mousePos.y,
+                  opacity: isHovering ? 1 : 0,
+                }}
+              />
               
               <Input 
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={`Search ${currentEngine.name} or type URL`}
-                className="relative w-full h-12 sm:h-16 pl-14 sm:pl-16 pr-24 sm:pr-32 text-base sm:text-lg bg-card border-transparent transition-colors rounded-2xl z-10"
+                className="relative w-full h-12 sm:h-16 pl-14 sm:pl-16 pr-24 sm:pr-32 text-lg sm:text-2xl bg-background/30 backdrop-blur-md border border-border/30 transition-colors rounded-2xl z-10 placeholder:text-muted-foreground/70 placeholder:text-base placeholder:sm:text-xl"
               />
             </div>
             <button 
@@ -171,33 +200,14 @@ const Index = () => {
             >
               Search
             </button>
-          </form>
+            </form>
+          </div>
 
           {/* Shortcuts */}
           <HomeShortcuts />
         </main>
       </div>
 
-      {/* Footer - Center */}
-      <footer className="py-4 text-center">
-        <p className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Hideout Network
-          <span>•</span>
-          <Link 
-            to="/privacy-policy" 
-            className="hover:text-primary transition-colors"
-          >
-            Privacy Policy
-          </Link>
-          <span>•</span>
-          <Link 
-            to="/credits" 
-            className="hover:text-primary transition-colors"
-          >
-            Credits
-          </Link>
-        </p>
-      </footer>
     </div>
   );
 };

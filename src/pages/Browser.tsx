@@ -36,13 +36,21 @@ const Browser = () => {
   
   // Show maintenance screen
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center">
-      <h1 className="text-3xl font-bold text-white mb-4">Browser Under Maintenance</h1>
-      <p className="text-muted-foreground mb-8">We're working on improvements. Check back soon!</p>
-      <Button onClick={() => navigate('/')} variant="outline">
-        Go Back
-      </Button>
-      
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center">
+      <GridBackground />
+      <div className="relative z-10 flex flex-col items-center text-center px-4">
+        <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <h1 className="text-3xl font-bold text-foreground mb-4">Browser Under Maintenance</h1>
+        <p className="text-muted-foreground mb-8">We're working on improvements. Check back soon!</p>
+        <Button onClick={() => navigate('/')} variant="outline" className="hover:scale-105 transition-transform">
+          Go Back
+        </Button>
+      </div>
     </div>
   );
   

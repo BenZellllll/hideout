@@ -8,10 +8,11 @@ import { FPSCounter } from "@/components/FPSCounter";
 import { GlobalChat } from "@/components/GlobalChat";
 import { GridBackground } from "@/components/GridBackground";
 import { usePageTitle } from "@/hooks/use-page-title";
-import { GameLoader } from "@/components/GameLoader";
+
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,12 +50,20 @@ const Games = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [favorites, setFavorites] = useState<string[]>([]);
-  const [showGameLoader, setShowGameLoader] = useState(false);
+  
   const [showFPS, setShowFPS] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
   const [displayedCount, setDisplayedCount] = useState(80);
   const [sidebarGamesKey, setSidebarGamesKey] = useState(0);
+  const [enabledSources, setEnabledSources] = useState<{ zones: boolean; hideout: boolean; list3: boolean }>(() => {
+    const saved = localStorage.getItem('hideout_enabled_sources');
+    if (saved) {
+      return JSON.parse(saved);
+    }
+    // Default: all enabled except hideout (List 2)
+    return { zones: true, hideout: false, list3: true };
+  });
   const loadingMoreRef = useRef(false);
   const { toast } = useToast();
 
@@ -206,10 +215,8 @@ const Games = () => {
         return nameMatch;
       });
       setCurrentGame(foundGame || null);
-      setShowGameLoader(true);
     } else if (!gameParam) {
       setCurrentGame(null);
-      setShowGameLoader(false);
     }
   }, [gameParam, searchParams, games]);
 
@@ -297,10 +304,22 @@ const Games = () => {
     }
   };
 
+  // Toggle source enabled state
+  const toggleSourceEnabled = (source: 'zones' | 'hideout' | 'list3') => {
+    const newSources = { ...enabledSources, [source]: !enabledSources[source] };
+    setEnabledSources(newSources);
+    localStorage.setItem('hideout_enabled_sources', JSON.stringify(newSources));
+    // Reset source filter to "all" if the currently selected source is disabled
+    if (sourceFilter === source && !newSources[source]) {
+      setSourceFilter("all");
+    }
+  };
+
   const filteredGames = games
     .filter((game) => {
       const matchesSearch = game.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesSource = sourceFilter === "all" || game.source === sourceFilter;
+      const sourceEnabled = game.source ? enabledSources[game.source] : true;
+      const matchesSource = sourceFilter === "all" ? sourceEnabled : (game.source === sourceFilter && sourceEnabled);
       const notFailedImage = !failedImages.has(game.id);
       return matchesSearch && matchesSource && notFailedImage;
     })
@@ -464,19 +483,22 @@ const Games = () => {
     loadGameContent();
   }, [currentGame, toast]);
 
-  // Get random games for side panels (excluding current game)
+  // Get random games for side panels (excluding current game and disabled sources)
   // Memoize to prevent regeneration on every render (only when sidebarGamesKey changes)
   const sidebarGames = useMemo(() => {
     if (!currentGame) return { left: [], right: [] };
     
-    const availableGames = games.filter(g => g.name !== currentGame.name);
+    const availableGames = games.filter(g => 
+      g.name !== currentGame.name && 
+      g.source && enabledSources[g.source]
+    );
     const shuffled = [...availableGames].sort(() => Math.random() - 0.5);
     
     return {
       left: shuffled.slice(0, 8),
       right: shuffled.slice(8, 16)
     };
-  }, [games, currentGame, sidebarGamesKey]);
+  }, [games, currentGame, sidebarGamesKey, enabledSources]);
 
   // Update sidebar games only when switching to a new game
   useEffect(() => {
@@ -531,13 +553,6 @@ const Games = () => {
               
               {/* Game Iframe */}
               <div className="w-full bg-card rounded-lg overflow-hidden border border-border relative" style={{ aspectRatio: '16/9' }}>
-                {showGameLoader && (
-                  <GameLoader
-                    gameName={currentGame.name}
-                    gameImage={currentGame.cover.replace('{COVER_URL}', COVER_URL).replace('{HTML_URL}', HTML_URL)}
-                    onLoadComplete={() => setShowGameLoader(false)}
-                  />
-                )}
                 <iframe
                   key={currentGame.name + '-' + currentGame.source}
                   id="game-iframe"
@@ -555,8 +570,7 @@ const Games = () => {
               <div className="w-full bg-card/50 backdrop-blur-md rounded-lg border border-border/50 p-4 flex gap-3">
                 <Button
                   onClick={handleFullscreen}
-                  disabled={showGameLoader}
-                  className="gap-2 hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="gap-2 hover:scale-105 transition-transform"
                 >
                   <Maximize className="w-4 h-4" />
                   Fullscreen
@@ -678,17 +692,50 @@ const Games = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="bg-card border-border z-50">
                 <DropdownMenuItem onClick={() => setSourceFilter("all")}>
-                  All Sources ({games.length})
+                  All Sources ({games.filter(g => g.source && enabledSources[g.source]).length})
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSourceFilter("zones")}>
-                  List 1 ({games.filter(g => g.source === 'zones').length})
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSourceFilter("hideout")}>
-                  List 2 ({games.filter(g => g.source === 'hideout').length})
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSourceFilter("list3")}>
-                  List 3 ({games.filter(g => g.source === 'list3').length})
-                </DropdownMenuItem>
+                <div className="px-2 py-1.5 flex items-center gap-2">
+                  <Checkbox 
+                    id="source-zones" 
+                    checked={enabledSources.zones} 
+                    onCheckedChange={() => toggleSourceEnabled('zones')}
+                  />
+                  <label 
+                    htmlFor="source-zones" 
+                    className={`flex-1 cursor-pointer text-sm ${!enabledSources.zones ? 'text-muted-foreground line-through' : ''}`}
+                    onClick={() => enabledSources.zones && setSourceFilter("zones")}
+                  >
+                    List 1 ({games.filter(g => g.source === 'zones').length})
+                  </label>
+                </div>
+                <div className="px-2 py-1.5 flex items-center gap-2">
+                  <Checkbox 
+                    id="source-hideout" 
+                    checked={enabledSources.hideout} 
+                    onCheckedChange={() => toggleSourceEnabled('hideout')}
+                  />
+                  <label 
+                    htmlFor="source-hideout" 
+                    className={`flex-1 cursor-pointer text-sm ${!enabledSources.hideout ? 'text-muted-foreground line-through' : ''}`}
+                    onClick={() => enabledSources.hideout && setSourceFilter("hideout")}
+                  >
+                    List 2 ({games.filter(g => g.source === 'hideout').length})
+                  </label>
+                </div>
+                <div className="px-2 py-1.5 flex items-center gap-2">
+                  <Checkbox 
+                    id="source-list3" 
+                    checked={enabledSources.list3} 
+                    onCheckedChange={() => toggleSourceEnabled('list3')}
+                  />
+                  <label 
+                    htmlFor="source-list3" 
+                    className={`flex-1 cursor-pointer text-sm ${!enabledSources.list3 ? 'text-muted-foreground line-through' : ''}`}
+                    onClick={() => enabledSources.list3 && setSourceFilter("list3")}
+                  >
+                    List 3 ({games.filter(g => g.source === 'list3').length})
+                  </label>
+                </div>
               </DropdownMenuContent>
             </DropdownMenu>
 

@@ -8,7 +8,8 @@ import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Settings, Bell, Palette, Database, Trash2, Globe, Zap, Activity, MousePointer2, Search } from "lucide-react";
+import { Settings, Bell, Palette, Database, Trash2, Globe, Zap, Activity, MousePointer2, Search, Eye } from "lucide-react";
+import { CloakSettings } from "@/components/CloakSettings";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import {
@@ -45,9 +46,10 @@ type SettingsData = {
   customCursorEnabled?: boolean;
   cursorSmoothness?: number;
   cursorSize?: number;
+  preventTabClose?: boolean;
 };
 
-type SettingsSection = 'appearance' | 'data' | 'permissions' | 'browser' | 'performance' | 'cursor' | 'updates' | 'aboutblank';
+type SettingsSection = 'appearance' | 'data' | 'permissions' | 'browser' | 'performance' | 'cursor' | 'updates' | 'cloak' | 'other';
 
 const SETTINGS_SECTIONS: { id: SettingsSection; label: string; icon: React.ReactNode }[] = [
   { id: 'appearance', label: 'Appearance', icon: <Palette className="w-4 h-4" /> },
@@ -57,7 +59,8 @@ const SETTINGS_SECTIONS: { id: SettingsSection; label: string; icon: React.React
   { id: 'performance', label: 'Performance', icon: <Zap className="w-4 h-4" /> },
   { id: 'cursor', label: 'Custom Cursor', icon: <MousePointer2 className="w-4 h-4" /> },
   { id: 'updates', label: 'Updates', icon: <Activity className="w-4 h-4" /> },
-  { id: 'aboutblank', label: 'About:blank', icon: <Globe className="w-4 h-4" /> },
+  { id: 'cloak', label: 'Cloak', icon: <Eye className="w-4 h-4" /> },
+  { id: 'other', label: 'Other', icon: <Settings className="w-4 h-4" /> },
 ];
 
 const SettingsPage = () => {
@@ -143,6 +146,7 @@ const SettingsPage = () => {
         customCursorEnabled: false,
         cursorSmoothness: 0.65,
         cursorSize: 36,
+        preventTabClose: false,
       };
       
       if (savedSettings) {
@@ -310,6 +314,7 @@ const SettingsPage = () => {
       customCursorEnabled: false,
       cursorSmoothness: 0.65,
       cursorSize: 36,
+      preventTabClose: false,
     };
     
     setSettings(defaultSettings);
@@ -726,98 +731,51 @@ const SettingsPage = () => {
           </div>
         );
 
-      case 'aboutblank':
+      case 'cloak':
+        return (
+          <CloakSettings 
+            settings={settings}
+            setSettings={setSettings}
+            presets={presets}
+            loadingPresets={loadingPresets}
+            handlePresetSelect={handlePresetSelect}
+          />
+        );
+
+      case 'other':
         return (
           <div className="space-y-6">
             <div>
-              <h2 className="text-2xl font-semibold mb-2">About:blank</h2>
-              <p className="text-muted-foreground">Customize the about:blank tab appearance</p>
+              <h2 className="text-2xl font-semibold mb-2">Other</h2>
+              <p className="text-muted-foreground">Additional browser and site settings</p>
             </div>
             <Separator />
-            <div className="space-y-6">
-              {/* Presets */}
-              {presets.length > 0 && (
-                <div className="py-3">
-                  <div className="space-y-0.5 mb-3">
-                    <Label className="text-base">Presets</Label>
-                    <p className="text-sm text-muted-foreground">Quick apply a preset configuration</p>
-                  </div>
-                  <Select 
-                    onValueChange={handlePresetSelect}
-                    disabled={loadingPresets}
-                  >
-                    <SelectTrigger className="w-full max-w-xs">
-                      <SelectValue placeholder="Choose a preset..." />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-60 overflow-y-auto bg-popover">
-                      {presets.map((preset) => (
-                        <SelectItem key={preset.id} value={preset.presetPath} className="flex items-center gap-2">
-                          {preset.favicon && (
-                            <img 
-                              src={preset.favicon} 
-                              alt="" 
-                              className="w-4 h-4 mr-2 inline-block"
-                              onError={(e) => e.currentTarget.style.display = 'none'}
-                            />
-                          )}
-                          {preset.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              )}
-              <Separator />
-              {/* Favicon */}
-              <div className="py-3">
-                <div className="space-y-0.5 mb-3">
-                  <Label className="text-base">Favicon</Label>
-                  <p className="text-sm text-muted-foreground">Custom favicon URL for the tab</p>
-                </div>
-                <div className="flex gap-2">
-                  <Input
-                    value={settings.aboutBlankFavicon || ''}
-                    onChange={(e) => setSettings(prev => ({ ...prev, aboutBlankFavicon: e.target.value }))}
-                    placeholder="Enter favicon URL..."
-                    className="flex-1 max-w-md"
-                  />
-                  <Button 
-                    variant="outline"
-                    onClick={() => {
-                      const newSettings = { ...settings };
-                      localStorage.setItem('hideout_settings', JSON.stringify(newSettings));
-                      toast.success("Favicon saved");
-                    }}
-                  >
-                    Set
-                  </Button>
-                </div>
+            
+            {/* Prevent Tab Closing */}
+            <div className="space-y-4">
+              <div className="space-y-0.5">
+                <h3 className="text-lg font-medium">Prevent Tab Closing</h3>
+                <p className="text-sm text-muted-foreground">
+                  When enabled, the browser will ask for confirmation before closing the tab
+                </p>
               </div>
-              <Separator />
-              {/* Tab Name */}
-              <div className="py-3">
-                <div className="space-y-0.5 mb-3">
-                  <Label className="text-base">Tab Name</Label>
-                  <p className="text-sm text-muted-foreground">Custom name displayed in the browser tab</p>
+              
+              <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border">
+                <div className="space-y-0.5">
+                  <Label className="text-base">Enable Tab Close Prevention</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Shows a "Leave site?" dialog when trying to close the tab
+                  </p>
                 </div>
-                <div className="flex gap-2">
-                  <Input
-                    value={settings.aboutBlankTabName || ''}
-                    onChange={(e) => setSettings(prev => ({ ...prev, aboutBlankTabName: e.target.value }))}
-                    placeholder="Enter tab name..."
-                    className="flex-1 max-w-md"
-                  />
-                  <Button 
-                    variant="outline"
-                    onClick={() => {
-                      const newSettings = { ...settings };
-                      localStorage.setItem('hideout_settings', JSON.stringify(newSettings));
-                      toast.success("Tab name saved");
-                    }}
-                  >
-                    Set
-                  </Button>
-                </div>
+                <Switch
+                  checked={(settings as any).preventTabClose === true}
+                  onCheckedChange={(checked) => {
+                    const newSettings = { ...settings, preventTabClose: checked };
+                    setSettings(newSettings as any);
+                    localStorage.setItem('hideout_settings', JSON.stringify(newSettings));
+                    toast.success(checked ? "Tab close prevention enabled" : "Tab close prevention disabled");
+                  }}
+                />
               </div>
             </div>
           </div>
